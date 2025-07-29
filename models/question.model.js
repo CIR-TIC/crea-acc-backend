@@ -3,7 +3,7 @@ const {
     Model
 } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
-     class Question extends Model {
+    class Question extends Model {
         /**
          * Helper method for defining associations.
          * This method is not a part of Sequelize lifecycle.
@@ -11,14 +11,18 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             Question.belongsTo(models.Form, { foreignKey: 'form_id' })
-        }
+            Question.hasMany(models.Option, {
+                foreignKey: 'question_id',
+                as: 'options'
+            });
+        };
     };
     Question.init({
-        label: {type: DataTypes.STRING},
-        input_type: {type: DataTypes.STRING},
-        question_type: {type: DataTypes.ENUM('text', 'select_one', 'select_multiple'),},
-        index: {type: DataTypes.INTEGER},
-        is_required: {type: DataTypes.BOOLEAN},
+        label: { type: DataTypes.STRING },
+        input_type: { type: DataTypes.STRING },
+        question_type: { type: DataTypes.STRING, },
+        index: { type: DataTypes.INTEGER },
+        is_required: { type: DataTypes.BOOLEAN },
         form_id: {
             type: DataTypes.INTEGER,
             allowNull: false

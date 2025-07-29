@@ -11,18 +11,24 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             Response.belongsTo(models.Question, { foreignKey: 'question_id' }),
-            Response.belongsTo(models.Survey, { foreignKey: 'survey_id' })
+            Response.belongsTo(models.Survey_Submission, { foreignKey: 'survey_submission_id' }),
+            Response.belongsTo(models.Option, { foreignKey: 'option_id' })
+            Response.hasMany(models.Response_Selected_Option, {foreignKey: 'response_id' })
         }
     };
     Response.init({
-        input: {type: DataTypes.STRING},
+        text_value: {type: DataTypes.STRING},
         question_id: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        survey_id: {
+        survey_submission_id: {
             type: DataTypes.INTEGER,
             allowNull: false
+        },
+        option_id: {
+            type: DataTypes.INTEGER,
+            allowNull: true
         },
         audCreatedAt: {
             field: 'aud_created_at',

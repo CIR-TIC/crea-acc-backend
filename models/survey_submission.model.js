@@ -3,23 +3,17 @@ const {
     Model
 } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
-     class Response_Option extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
+    class Survey_Submission extends Model {
         static associate(models) {
-            Response_Option.belongsTo(models.Option, { foreignKey: 'option_id' }),
-            Response_Option.belongsTo(models.Survey, { foreignKey: 'survey_id' })
+            Survey_Submission.belongsTo(models.Form, { foreignKey: 'form_id' })
+            Survey_Submission.hasMany(models.Response, {foreignKey: 'survey_submission_id',} )
         }
     };
-    Response_Option.init({
-        option_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
-        survey_id: {
+    Survey_Submission.init({
+        submission_code: { type: DataTypes.STRING },
+        date: { type: DataTypes.DATE },
+        pollster_id: { type: DataTypes.INTEGER },
+        form_id: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
@@ -40,10 +34,10 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         sequelize,
         schema: 'form',
-        modelName: 'Response_Option',
+        modelName: 'Survey_Submission',
         timestamps: false,
         freezeTableName: true,
-        tableName: 'response_option',
+        tableName: 'survey_submission',
     })
-    return Response_Option
+    return Survey_Submission
 }

@@ -3,10 +3,16 @@ const {
     Model
 } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
-    class Form extends Model {};
+    class Form extends Model { };
+    Form.associate = (models) => {
+        Form.hasMany(models.Question, {
+            foreignKey: 'form_id',
+            as: 'questions'
+        });
+    };
     Form.init({
-        title: {type: DataTypes.STRING},
-        description: {type: DataTypes.STRING},
+        title: { type: DataTypes.STRING },
+        description: { type: DataTypes.STRING },
         audCreatedAt: {
             field: 'aud_created_at',
             type: DataTypes.DATE,

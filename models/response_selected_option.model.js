@@ -3,21 +3,23 @@ const {
     Model
 } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
-     class Option extends Model {
+     class Response_Selected_Option extends Model {
         /**
          * Helper method for defining associations.
          * This method is not a part of Sequelize lifecycle.
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            Option.belongsTo(models.Question, { foreignKey: 'question_id' })
-            Option.hasMany(models.Response_Selected_Option, { foreignKey: 'option_id' })
+            Response_Selected_Option.belongsTo(models.Response, { foreignKey: 'response_id' }),
+            Response_Selected_Option.belongsTo(models.Option, { foreignKey: 'option_id' })
         }
     };
-    Option.init({
-        value: {type: DataTypes.STRING},
-        index: {type: DataTypes.INTEGER},
-        question_id: {
+    Response_Selected_Option.init({
+        option_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        response_id: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
@@ -38,10 +40,10 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         sequelize,
         schema: 'form',
-        modelName: 'Option',
+        modelName: 'Response_Selected_Option',
         timestamps: false,
         freezeTableName: true,
-        tableName: 'option',
+        tableName: 'response_selected_option',
     })
-    return Option
+    return Response_Selected_Option
 }

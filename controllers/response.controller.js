@@ -2,9 +2,8 @@ const { Response } = require('../models');
 
 exports.createResponse = async (req, res) => {
   try {
-    const { input, question_id, survey_id } = req.body;
-    const response = await Response.create({ input, question_id, survey_id });
-    res.status(201).json(response);
+
+
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

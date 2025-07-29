@@ -35,7 +35,7 @@ app.use('/auth', authRouter);;
 app.use('/forms', formRouter);
 app.use('/questions', questionRouter);
 app.use('/options', optionRouter);
-app.use('/responses', responseRouter);
+app.use('/submissions', responseRouter);
 app.use('/surveys', surveyRouter);
 app.use('/response_options', response_optionRouter);
 
