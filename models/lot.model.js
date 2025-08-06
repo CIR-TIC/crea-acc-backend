@@ -3,12 +3,12 @@ module.exports = (sequelize, DataTypes) => {
     const Lot = sequelize.define('Lot', {
         lot_id: DataTypes.STRING,
         area: DataTypes.FLOAT,
-        crop_type: DataTypes.STRING,
+        associated_crop: DataTypes.STRING,
         age: DataTypes.INTEGER,
         sowing_date: DataTypes.DATE,
         irrigation_system: DataTypes.STRING,
         id_property: DataTypes.INTEGER,
-        id_crop: DataTypes.INTEGER
+        id_variety: DataTypes.INTEGER
     }, {
         tableName: 'lot',
         schema: 'app',
@@ -20,8 +20,8 @@ module.exports = (sequelize, DataTypes) => {
         Lot.belongsTo(models.Property, {
             foreignKey: 'id_property'
         });
-        Lot.belongsTo(models.Crop, {
-            foreignKey: 'id_crop'
+        Lot.belongsTo(models.Variety, {
+            foreignKey: 'id_variety'
         });
         Lot.hasMany(models.Activity, { foreignKey: 'id_lot', as: 'activities' });
         Lot.hasMany(models.Fermentation, { foreignKey: 'id_lot', as: 'fermentations' });

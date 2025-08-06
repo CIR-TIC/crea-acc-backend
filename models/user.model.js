@@ -3,6 +3,8 @@ const {
     Model
 } = require('sequelize')
 
+const bcrypt = require('bcryptjs');
+
 module.exports = (sequelize, DataTypes) => {
     class User extends Model {
         static associate(models) {
@@ -48,6 +50,29 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: false,
         freezeTableName: true,
         tableName: 'user',
+        hooks: {
+            // Hook 'beforeCreate': se ejecuta ANTES de crear un nuevo usuario
+            beforeCreate: async (user) => {
+                if (user.password) {
+                    // Genera una salt y hashea la contraseña
+                    // 10 es el 'saltRounds' (cost factor). Un valor de 10-12 es común para producción.
+                    // Valores más altos son más seguros pero más lentos.
+                    const salt = await bcrypt.genSalt(10);
+                    user.password = await bcrypt.hash(user.password, salt);
+                }
+            },
+            // Hook 'beforeUpdate': se ejecuta ANTES de actualizar un usuario
+            beforeUpdate: async (user) => {
+                // Solo hashear si la contraseña ha sido modificada
+                if (user.changed('password')) {
+                    const salt = await bcrypt.genSalt(10);
+                    user.password = await bcrypt.hash(user.password, salt);
+                }
+            },
+        },
     })
+    User.prototype.matchPassword = async function (enteredPassword) {
+        return await bcrypt.compare(enteredPassword, this.password);
+    };
     return User
 }

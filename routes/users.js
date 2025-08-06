@@ -1,9 +1,8 @@
 var express = require('express');
 var router = express.Router();
+const { verifyToken } = require('../middlewares/authJWT');
+const usersController = require('../controllers/user.controller');
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.get('/hasProperty', verifyToken, usersController.hasProperty);
 
 module.exports = router;

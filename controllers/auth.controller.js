@@ -92,7 +92,7 @@ exports.signup = async (req, res) => {
       name: req.body.name,
       last_name: req.body.last_name,
       email: req.body.email,
-      password: bcrypt.hashSync(req.body.password, 8),
+      password: req.body.password,
       dirthday: req.body.dirthday,
       role: req.body.role,
       association_id: req.body.association_id,

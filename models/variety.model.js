@@ -2,6 +2,7 @@ module.exports = (sequelize, DataTypes) => {
     const Variety = sequelize.define('Variety', {
         name: DataTypes.STRING,
         description: DataTypes.STRING,
+        id_crop: DataTypes.INTEGER,
     }, {
         tableName: 'variety',
         schema: 'app',
@@ -10,7 +11,10 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Variety.associate = (models) => {
-        Variety.hasMany(models.Crop, {
+        Variety.belongsTo(models.Crop, {
+            foreignKey: 'id_crop'
+        });
+        Variety.hasMany(models.Lot, {
             foreignKey: 'id_variety'
         });
     };

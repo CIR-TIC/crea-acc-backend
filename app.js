@@ -14,7 +14,11 @@ var responseRouter = require('./routes/response');
 var surveyRouter = require('./routes/survey');
 var response_optionRouter = require('./routes/response_option');
 
+var lotRouter = require('./routes/lot');
+var varietyRouter = require('./routes/variety');
+var cropRouter = require('./routes/crop');
 var associationRouter = require('./routes/association');
+var propertyRouter = require('./routes/property');
 
 
 var app = express();
@@ -39,7 +43,11 @@ app.use('/submissions', responseRouter);
 app.use('/surveys', surveyRouter);
 app.use('/response_options', response_optionRouter);
 
+app.use('/lots', lotRouter);
+app.use('/variety', varietyRouter);
+app.use('/crops', cropRouter);
 app.use('/association', associationRouter);
+app.use('/properties', propertyRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

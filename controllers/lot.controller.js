@@ -1,28 +1,29 @@
 // controllers/lotController.js
-const { Lot, Property } = require('../models');
+const { Lot, Property, User } = require('../models');
 
 exports.createLot = async (req, res) => {
     try {
         const {
-            lot_id,
             area,
-            crop_type,
+            associated_crop,
             age,
             sowing_date,
             irrigation_system,
-            id_property,
-            id_crop
+            id_variety
         } = req.body;
 
+        const tmp_user = await User.findByPk(req.userId)
+
+        let id_property = tmp_user.property_id
+
         const lot = await Lot.create({
-            lot_id,
             area,
-            crop_type,
+            associated_crop,
             age,
             sowing_date,
             irrigation_system,
             id_property,
-            id_crop
+            id_variety
         });
 
         res.status(201).json(lot);
@@ -38,6 +39,20 @@ exports.getLots = async (req, res) => {
         });
         res.status(200).json(lots);
     } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+exports.getLotByPropertyId = async (req, res) => {
+    try {
+        const user = await User.findByPk(req.userId);
+        const lot = await Lot.findAll({
+            where: {id_property: user.property_id}
+        });
+
+        res.status(200).json(lot);
+    } catch (error) {
+        console.log(error)
         res.status(500).json({ error: error.message });
     }
 };
