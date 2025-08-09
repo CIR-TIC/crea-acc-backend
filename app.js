@@ -14,6 +14,8 @@ var responseRouter = require('./routes/response');
 var surveyRouter = require('./routes/survey');
 var response_optionRouter = require('./routes/response_option');
 
+var activityRouter = require('./routes/activity');
+var typeActivityRouter = require('./routes/type_activity');
 var lotRouter = require('./routes/lot');
 var varietyRouter = require('./routes/variety');
 var cropRouter = require('./routes/crop');
@@ -43,6 +45,8 @@ app.use('/submissions', responseRouter);
 app.use('/surveys', surveyRouter);
 app.use('/response_options', response_optionRouter);
 
+app.use('/activities', activityRouter);
+app.use('/type_activities', typeActivityRouter);
 app.use('/lots', lotRouter);
 app.use('/variety', varietyRouter);
 app.use('/crops', cropRouter);

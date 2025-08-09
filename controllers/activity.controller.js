@@ -6,21 +6,29 @@ exports.createActivity = async (req, res) => {
         const {
             name,
             description,
-            start_date,
-            end_date,
-            responsible,
+            date,
+            equipment,
+            dose,
+            labour_amount,
+            labour_cost,
+            observation,
             status,
-            id_lot
+            id_lot,
+            id_type_activity
         } = req.body;
 
         const activity = await Activity.create({
             name,
             description,
-            start_date,
-            end_date,
-            responsible,
+            date,
+            equipment,
+            dose,
+            labour_amount,
+            labour_cost,
+            observation,
             status,
-            id_lot
+            id_lot,
+            id_type_activity
         });
 
         res.status(201).json(activity);
@@ -40,11 +48,11 @@ exports.getActivities = async (req, res) => {
     }
 };
 
-exports.getActivityById = async (req, res) => {
+exports.getActivityByLot = async (req, res) => {
     try {
-        const { id } = req.body.id;
-        const activity = await Activity.findByPk(id, {
-            include: [{ model: Lot, as: 'lot' }]
+        const id_lot = req.body.id_lot;
+        const activity = await Activity.findAll({
+            where: { id_lot: id_lot }
         });
 
         if (!activity) return res.status(404).json({ error: 'Activity not found' });

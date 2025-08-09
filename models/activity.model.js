@@ -2,11 +2,15 @@ module.exports = (sequelize, DataTypes) => {
     const Activity = sequelize.define('Activity', {
         name: DataTypes.STRING,
         description: DataTypes.STRING,
-        start_date: DataTypes.DATE,
-        end_date: DataTypes.DATE,
-        responsible: DataTypes.STRING,
+        date: DataTypes.DATE,
+        equipment: DataTypes.STRING,
+        dose: DataTypes.STRING,
+        labour_amount: DataTypes.FLOAT,
+        labour_cost: DataTypes.FLOAT,
+        observation: DataTypes.STRING,
         status: DataTypes.STRING,
-        id_lot: DataTypes.INTEGER
+        id_lot: DataTypes.INTEGER,
+        id_type_activity: DataTypes.INTEGER
     }, {
         tableName: 'activity',
         schema: 'app',
