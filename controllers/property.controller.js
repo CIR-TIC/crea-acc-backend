@@ -59,7 +59,6 @@ exports.getPropertyById = async (req, res) => {
 
 exports.createProperty = async (req, res) => {
     const { province, canton, parish, community, coordinates_x, coordinates_y } = req.body;
-
     if (!province || !canton || !parish || !community) {
         return res.status(400).json({ message: 'Province, Canton, Parish, and Community are required to create a property.' });
     }

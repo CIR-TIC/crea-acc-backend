@@ -1,38 +1,39 @@
-const { Fermentation } = require('../models');
+const { Harvest } = require('../models');
 
-exports.createFermentation = async (req, res) => {
+exports.createHarvest = async (req, res) => {
   try {
     const {
       date,
-      amount,
       unit_measure,
-      days,
+      product,
+      amount,
       observation,
       id_lot,
     } = req.body;
 
-    const fermentation = await Fermentation.create({
+    const harvest = await Harvest.create({
       date,
-      amount,
       unit_measure,
-      days,
+      product,
+      amount,
       observation,
       id_lot,
     });
 
-    res.status(201).json(fermentation);
+    res.status(201).json(harvest);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-exports.getFermentations = async (req, res) => {
+exports.getHarvest = async (req, res) => {
   try {
-    const fermentations = await Fermentation.findAll({
+    const harvests = await Harvest.findAll({
       where: {id_lot: req.body.id_lot}
     });
-    res.status(200).json(fermentations);
+    res.status(200).json(harvests);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 };

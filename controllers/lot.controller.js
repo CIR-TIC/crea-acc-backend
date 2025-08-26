@@ -4,6 +4,7 @@ const { Lot, Property, User } = require('../models');
 exports.createLot = async (req, res) => {
     try {
         const {
+            lot_name,
             area,
             associated_crop,
             age,
@@ -15,8 +16,8 @@ exports.createLot = async (req, res) => {
         const tmp_user = await User.findByPk(req.userId)
 
         let id_property = tmp_user.property_id
-
         const lot = await Lot.create({
+            lot_name,
             area,
             associated_crop,
             age,

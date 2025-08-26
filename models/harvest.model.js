@@ -1,23 +1,23 @@
 module.exports = (sequelize, DataTypes) => {
-    const Fermentation = sequelize.define('Fermentation', {
+    const Harvest = sequelize.define('Harvest', {
         date: DataTypes.DATE,
-        amount: DataTypes.INTEGER,
         unit_measure: DataTypes.STRING,
-        days: DataTypes.STRING,
+        product: DataTypes.STRING,
+        amount: DataTypes.INTEGER,
         observation: DataTypes.STRING,
         id_lot: DataTypes.INTEGER,
     }, {
-        tableName: 'fermentation',
+        tableName: 'harvest',
         schema: 'app',
-        modelName: 'Fermentation',
+        modelName: 'Harvest',
         timestamps: false,
     });
 
-    Fermentation.associate = (models) => {
-        Fermentation.belongsTo(models.Lot, {
+    Harvest.associate = (models) => {
+        Harvest.belongsTo(models.Lot, {
             foreignKey: 'id_lot'
         });
     };
 
-    return Fermentation;
+    return Harvest;
 };

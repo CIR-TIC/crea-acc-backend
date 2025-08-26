@@ -1,12 +1,12 @@
 module.exports = (sequelize, DataTypes) => {
     const Sale = sequelize.define('Sale', {
         date: DataTypes.DATE,
-        quantity: DataTypes.FLOAT,
-        unit: DataTypes.STRING,
-        price_per_unit: DataTypes.FLOAT,
-        total: DataTypes.FLOAT,
-        buyer: DataTypes.STRING,
-        notes: DataTypes.STRING,
+        unit_measure: DataTypes.STRING,
+        income: DataTypes.INTEGER,
+        destination: DataTypes.STRING,
+        description: DataTypes.STRING,
+        transportation_type: DataTypes.STRING,
+        observation: DataTypes.STRING,
         id_lot: DataTypes.INTEGER
     }, {
         tableName: 'sale',

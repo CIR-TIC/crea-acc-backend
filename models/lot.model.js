@@ -1,7 +1,7 @@
 // models/lot.js
 module.exports = (sequelize, DataTypes) => {
     const Lot = sequelize.define('Lot', {
-        lot_id: DataTypes.STRING,
+        lot_name: DataTypes.STRING,
         area: DataTypes.FLOAT,
         associated_crop: DataTypes.STRING,
         age: DataTypes.INTEGER,
@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'id_variety'
         });
         Lot.hasMany(models.Activity, { foreignKey: 'id_lot', as: 'activities' });
+        Lot.hasMany(models.Harvest, { foreignKey: 'id_lot', as: 'harvests' });
         Lot.hasMany(models.Fermentation, { foreignKey: 'id_lot', as: 'fermentations' });
         Lot.hasMany(models.Drying, { foreignKey: 'id_lot', as: 'dryings' });
         Lot.hasMany(models.Sale, { foreignKey: 'id_lot', as: 'sales' });

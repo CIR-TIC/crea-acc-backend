@@ -25,6 +25,7 @@ exports.createSupply = async (req, res) => {
 
         res.status(201).json(supply);
     } catch (error) {
+        console.log(error)
         res.status(500).json({ error: error.message });
     }
 };
@@ -32,7 +33,7 @@ exports.createSupply = async (req, res) => {
 exports.getSupplies = async (req, res) => {
     try {
         const supplies = await Supplies.findAll({
-            include: [{ model: Supply_Type, as: 'supply_type' }]
+            include: [{ model: Supply_Type }]
         });
         res.status(200).json(supplies);
     } catch (error) {
@@ -56,26 +57,14 @@ exports.getSupplyById = async (req, res) => {
 
 exports.updateSupply = async (req, res) => {
     try {
-        const { id } = req.body.id;
-        const supply = await Supplies.findByPk(id);
+        console.log(req.body)
+        const supply = await Supplies.findByPk(req.body.id);
         if (!supply) return res.status(404).json({ error: 'Supply not found' });
 
         await supply.update(req.body);
         res.status(200).json(supply);
     } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
-
-exports.deleteSupply = async (req, res) => {
-    try {
-        const { id } = req.body.id;
-        const supply = await Supplies.findByPk(id);
-        if (!supply) return res.status(404).json({ error: 'Supply not found' });
-
-        await supply.destroy();
-        res.status(204).send();
-    } catch (error) {
+        console.log(error)
         res.status(500).json({ error: error.message });
     }
 };

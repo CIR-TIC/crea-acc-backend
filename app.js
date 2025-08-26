@@ -14,6 +14,12 @@ var responseRouter = require('./routes/response');
 var surveyRouter = require('./routes/survey');
 var response_optionRouter = require('./routes/response_option');
 
+var supplyRouter = require('./routes/supply');
+var supplyTypeRouter = require('./routes/supply_type');
+var salesRouter = require('./routes/sale');
+var fermentationRouter = require('./routes/fermentation');
+var dryingRouter = require('./routes/drying');
+var harvestRouter = require('./routes/harvest');
 var activityRouter = require('./routes/activity');
 var typeActivityRouter = require('./routes/type_activity');
 var lotRouter = require('./routes/lot');
@@ -45,6 +51,12 @@ app.use('/submissions', responseRouter);
 app.use('/surveys', surveyRouter);
 app.use('/response_options', response_optionRouter);
 
+app.use('/supplies', supplyRouter)
+app.use('/supply_types', supplyTypeRouter)
+app.use('/sales', salesRouter);
+app.use('/fermentations', fermentationRouter);
+app.use('/dryings', dryingRouter);
+app.use('/harvests', harvestRouter);
 app.use('/activities', activityRouter);
 app.use('/type_activities', typeActivityRouter);
 app.use('/lots', lotRouter);

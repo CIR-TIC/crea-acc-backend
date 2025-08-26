@@ -1,9 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
     const Drying = sequelize.define('Drying', {
-        start_date: DataTypes.DATE,
-        end_date: DataTypes.DATE,
+        date: DataTypes.DATE,
+        amount: DataTypes.INTEGER,
+        unit_measure: DataTypes.STRING,
+        days: DataTypes.STRING,
         method: DataTypes.STRING,
-        observations: DataTypes.STRING,
+        observation: DataTypes.STRING,
         id_lot: DataTypes.INTEGER,
     }, {
         tableName: 'drying',
