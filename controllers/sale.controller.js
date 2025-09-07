@@ -5,6 +5,7 @@ exports.createSale = async (req, res) => {
         const {
             date,
             unit_measure,
+            quantity,
             income,
             destination,
             description,
@@ -16,6 +17,7 @@ exports.createSale = async (req, res) => {
         const sale = await Sale.create({
             date,
             unit_measure,
+            quantity,
             income,
             destination,
             description,

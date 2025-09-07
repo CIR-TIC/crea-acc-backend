@@ -2,7 +2,7 @@ module.exports = (sequelize, DataTypes) => {
     const Sale = sequelize.define('Sale', {
         date: DataTypes.DATE,
         unit_measure: DataTypes.STRING,
-        amount: DataTypes.INTEGER,
+        quantity: DataTypes.INTEGER,
         income: DataTypes.INTEGER,
         destination: DataTypes.STRING,
         description: DataTypes.STRING,
