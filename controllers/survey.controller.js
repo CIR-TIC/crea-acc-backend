@@ -132,7 +132,10 @@ exports.submitSurvey = async (req, res) => {
             option_id: optId,
           });
         });
-      } else {
+      } else if (question.input_type === 'note') {
+        console.log("note")
+      }
+      else {
         await transaction.rollback();
         return res.status(400).json({ message: `Unsupported input_type: ${question.input_type} for question ${questionId}.` });
       }
