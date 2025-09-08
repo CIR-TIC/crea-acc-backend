@@ -7,7 +7,8 @@ module.exports = (sequelize, DataTypes) => {
         unit_measure: DataTypes.STRING,
         cost: DataTypes.FLOAT,
         observation: DataTypes.STRING,
-        id_supply_type: DataTypes.INTEGER
+        id_supply_type: DataTypes.INTEGER,
+        id_property: DataTypes.INTEGER
     }, {
         tableName: 'supplies',
         schema: 'app',
@@ -18,6 +19,9 @@ module.exports = (sequelize, DataTypes) => {
     Supplies.associate = (models) => {
         Supplies.belongsTo(models.Supply_Type, {
             foreignKey: 'id_supply_type'
+        });
+        Supplies.belongsTo(models.Property, {
+            foreignKey: 'id_property'
         });
     };
 

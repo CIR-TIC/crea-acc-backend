@@ -1,5 +1,5 @@
 // controllers/suppliesController.js
-const { Supplies, Supply_Type } = require('../models');
+const { Supplies, Supply_Type, User } = require('../models');
 
 exports.createSupply = async (req, res) => {
     try {
@@ -32,11 +32,14 @@ exports.createSupply = async (req, res) => {
 
 exports.getSupplies = async (req, res) => {
     try {
+        const user = await User.findByPk(req.userId)
         const supplies = await Supplies.findAll({
+            where: {id_property: user.property_id},
             include: [{ model: Supply_Type }]
         });
         res.status(200).json(supplies);
     } catch (error) {
+        console.log(error)
         res.status(500).json({ error: error.message });
     }
 };

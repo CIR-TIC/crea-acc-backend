@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
             Property.hasMany(models.User, {
                 foreignKey: 'property_id',
             });
+            
+            Property.hasMany(models.Supplies, {
+                foreignKey: 'id_property',
+            });
         }
     };
     Property.init({
