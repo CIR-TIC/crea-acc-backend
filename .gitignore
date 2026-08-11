@@ -6,3 +6,7 @@ npm-debug.log
 .env.dev
 .env.tst
 .env.prd
+
+# graphify (regenerable build cache/bookkeeping; keep graph.json/graph.html/GRAPH_REPORT.md)
+graphify-out/cache/
+graphify-out/manifest.json

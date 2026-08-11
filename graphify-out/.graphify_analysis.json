@@ -1,0 +1,570 @@
+{
+  "communities": {
+    "0": [
+      "app",
+      "middlewares_authjwt",
+      "middlewares_authjwt_config",
+      "middlewares_authjwt_jwt",
+      "middlewares_authjwt_verifytoken",
+      "routes_activity",
+      "routes_activity_activitycontroller",
+      "routes_activity_express",
+      "routes_activity_router",
+      "routes_activity_verifytoken",
+      "routes_drying",
+      "routes_drying_dryingcontroller",
+      "routes_drying_express",
+      "routes_drying_router",
+      "routes_drying_verifytoken",
+      "routes_fermentation",
+      "routes_fermentation_express",
+      "routes_fermentation_fermentationcontroller",
+      "routes_fermentation_router",
+      "routes_fermentation_verifytoken",
+      "routes_harvest",
+      "routes_harvest_express",
+      "routes_harvest_harvestcontroller",
+      "routes_harvest_router",
+      "routes_harvest_verifytoken",
+      "routes_index",
+      "routes_property",
+      "routes_property_express",
+      "routes_property_propertycontroller",
+      "routes_property_router",
+      "routes_property_verifytoken",
+      "routes_supply",
+      "routes_supply_express",
+      "routes_supply_router",
+      "routes_supply_supplycontroller",
+      "routes_supply_verifytoken",
+      "routes_users",
+      "routes_users_userscontroller",
+      "routes_users_verifytoken"
+    ],
+    "1": [
+      "bcryptjs",
+      "cookie_parser",
+      "debug",
+      "dotenv",
+      "express",
+      "http_errors",
+      "jade",
+      "jsonwebtoken",
+      "morgan",
+      "package_dependencies",
+      "package_dependencies_bcryptjs",
+      "package_dependencies_cookie_parser",
+      "package_dependencies_debug",
+      "package_dependencies_dotenv",
+      "package_dependencies_express",
+      "package_dependencies_http_errors",
+      "package_dependencies_jade",
+      "package_dependencies_jsonwebtoken",
+      "package_dependencies_morgan",
+      "package_dependencies_pg",
+      "package_dependencies_pg_hstore",
+      "package_dependencies_sequelize",
+      "package_dependencies_uuid",
+      "pg",
+      "pg_hstore",
+      "sequelize",
+      "uuid"
+    ],
+    "2": [
+      "controllers_activity_controller",
+      "controllers_activity_controller_activity_lot",
+      "controllers_activity_controller_createactivity",
+      "controllers_activity_controller_deleteactivity",
+      "controllers_activity_controller_getactivities",
+      "controllers_activity_controller_getactivitybylot",
+      "controllers_activity_controller_updateactivity",
+      "controllers_drying_controller",
+      "controllers_drying_controller_createdrying",
+      "controllers_drying_controller_drying_lot",
+      "controllers_drying_controller_getdrying",
+      "controllers_drying_controller_where",
+      "controllers_fermentation_controller",
+      "controllers_fermentation_controller_createfermentation",
+      "controllers_fermentation_controller_fermentation",
+      "controllers_fermentation_controller_getfermentations",
+      "controllers_harvest_controller",
+      "controllers_harvest_controller_createharvest",
+      "controllers_harvest_controller_getharvest",
+      "controllers_harvest_controller_harvest",
+      "models_index",
+      "models_index_basename",
+      "models_index_db",
+      "models_index_fs",
+      "models_index_opts",
+      "models_index_path",
+      "models_index_sequelize"
+    ],
+    "3": [
+      "config_auth_config",
+      "controllers_auth_controller",
+      "controllers_auth_controller_bcrypt",
+      "controllers_auth_controller_config",
+      "controllers_auth_controller_db",
+      "controllers_auth_controller_generateaccesstoken",
+      "controllers_auth_controller_generateandstorerefreshtoken",
+      "controllers_auth_controller_jwt",
+      "controllers_auth_controller_refreshtoken",
+      "controllers_auth_controller_signin",
+      "controllers_auth_controller_signup",
+      "controllers_auth_controller_v4_uuidv4",
+      "routes_auth",
+      "routes_auth_auth",
+      "routes_auth_express",
+      "routes_auth_router"
+    ],
+    "4": [
+      "controllers_form_controller",
+      "controllers_form_controller_createform",
+      "controllers_form_controller_db",
+      "controllers_form_controller_deleteform",
+      "controllers_form_controller_getformbyid",
+      "controllers_form_controller_getformdetails",
+      "controllers_form_controller_getforms",
+      "controllers_form_controller_updateform",
+      "routes_form",
+      "routes_form_express",
+      "routes_form_formcontroller",
+      "routes_form_router",
+      "routes_form_verifytoken"
+    ],
+    "5": [
+      "controllers_lot_controller",
+      "controllers_lot_controller_createlot",
+      "controllers_lot_controller_deletelot",
+      "controllers_lot_controller_getlotbyid",
+      "controllers_lot_controller_getlotbypropertyid",
+      "controllers_lot_controller_getlots",
+      "controllers_lot_controller_lot_property_user",
+      "controllers_lot_controller_updatelot",
+      "routes_lot",
+      "routes_lot_express",
+      "routes_lot_lotcontroller",
+      "routes_lot_router",
+      "routes_lot_verifytoken"
+    ],
+    "6": [
+      "controllers_survey_controller",
+      "controllers_survey_controller_db",
+      "controllers_survey_controller_deletesurvey",
+      "controllers_survey_controller_getsurveys",
+      "controllers_survey_controller_getsurveysubmissiondetails",
+      "controllers_survey_controller_op",
+      "controllers_survey_controller_submitsurvey",
+      "controllers_survey_controller_updatesurvey",
+      "routes_survey",
+      "routes_survey_express",
+      "routes_survey_router",
+      "routes_survey_surveycontroller",
+      "routes_survey_verifytoken"
+    ],
+    "7": [
+      "controllers_response_controller",
+      "controllers_response_controller_createresponse",
+      "controllers_response_controller_deleteresponse",
+      "controllers_response_controller_getresponsebyid",
+      "controllers_response_controller_getresponsebyquestionid",
+      "controllers_response_controller_getresponses",
+      "controllers_response_controller_response",
+      "controllers_response_controller_updateresponse",
+      "routes_response",
+      "routes_response_express",
+      "routes_response_responsecontroller",
+      "routes_response_router"
+    ],
+    "8": [
+      "controllers_type_activity_controller",
+      "controllers_type_activity_controller_createtypeactivity",
+      "controllers_type_activity_controller_deletetypeactivity",
+      "controllers_type_activity_controller_gettypeactivities",
+      "controllers_type_activity_controller_gettypeactivitybyid",
+      "controllers_type_activity_controller_type_activity",
+      "controllers_type_activity_controller_updatetypeactivity",
+      "routes_type_activity",
+      "routes_type_activity_express",
+      "routes_type_activity_router",
+      "routes_type_activity_typeactivitycontroller",
+      "routes_type_activity_verifytoken"
+    ],
+    "9": [
+      "nodemon",
+      "package",
+      "package_devdependencies",
+      "package_devdependencies_nodemon",
+      "package_engines",
+      "package_engines_node",
+      "package_name",
+      "package_private",
+      "package_scripts",
+      "package_scripts_dev",
+      "package_scripts_start",
+      "package_version"
+    ],
+    "10": [
+      "controllers_option_controller",
+      "controllers_option_controller_createoption",
+      "controllers_option_controller_deleteoption",
+      "controllers_option_controller_getoptionbyid",
+      "controllers_option_controller_getoptions",
+      "controllers_option_controller_option",
+      "controllers_option_controller_updateoption",
+      "routes_option",
+      "routes_option_express",
+      "routes_option_optioncontroller",
+      "routes_option_router"
+    ],
+    "11": [
+      "controllers_question_controller",
+      "controllers_question_controller_createquestion",
+      "controllers_question_controller_deletequestion",
+      "controllers_question_controller_getquestionbyid",
+      "controllers_question_controller_getquestions",
+      "controllers_question_controller_question",
+      "controllers_question_controller_updatequestion",
+      "routes_question",
+      "routes_question_express",
+      "routes_question_questioncontroller",
+      "routes_question_router"
+    ],
+    "12": [
+      "controllers_response_option_controller",
+      "controllers_response_option_controller_createresponseoption",
+      "controllers_response_option_controller_deleteresponseoption",
+      "controllers_response_option_controller_getresponseoptionbyid",
+      "controllers_response_option_controller_getresponseoptions",
+      "controllers_response_option_controller_responseoption",
+      "controllers_response_option_controller_updateresponseoption",
+      "routes_response_option",
+      "routes_response_option_controller",
+      "routes_response_option_express",
+      "routes_response_option_router"
+    ],
+    "13": [
+      "controllers_crop_controller",
+      "controllers_crop_controller_crop_variety",
+      "controllers_crop_controller_getcropbyid",
+      "controllers_crop_controller_getcrops",
+      "routes_crop",
+      "routes_crop_cropcontroller",
+      "routes_crop_express",
+      "routes_crop_router",
+      "routes_crop_verifytoken"
+    ],
+    "14": [
+      "controllers_sale_controller",
+      "controllers_sale_controller_createsale",
+      "controllers_sale_controller_getsales",
+      "controllers_sale_controller_sale_lot",
+      "routes_sale",
+      "routes_sale_express",
+      "routes_sale_router",
+      "routes_sale_salecontroller",
+      "routes_sale_verifytoken"
+    ],
+    "15": [
+      "controllers_variety_controller",
+      "controllers_variety_controller_getvarieties",
+      "controllers_variety_controller_getvarietybyid",
+      "controllers_variety_controller_variety_crop",
+      "routes_variety",
+      "routes_variety_express",
+      "routes_variety_router",
+      "routes_variety_varietycontroller",
+      "routes_variety_verifytoken"
+    ],
+    "16": [
+      "controllers_property_controller",
+      "controllers_property_controller_createproperty",
+      "controllers_property_controller_db",
+      "controllers_property_controller_deleteproperty",
+      "controllers_property_controller_getallproperties",
+      "controllers_property_controller_getmyassociatedproperty",
+      "controllers_property_controller_getpropertybyid",
+      "controllers_property_controller_updateproperty"
+    ],
+    "17": [
+      "controllers_supply_type_controller",
+      "controllers_supply_type_controller_getsupplytypes",
+      "controllers_supply_type_controller_supply_type",
+      "routes_supply_type",
+      "routes_supply_type_express",
+      "routes_supply_type_router",
+      "routes_supply_type_supplytypecontroller",
+      "routes_supply_type_verifytoken"
+    ],
+    "18": [
+      "bin_www",
+      "bin_www_models",
+      "bin_www_normalizeport",
+      "bin_www_onerror",
+      "bin_www_onlistening",
+      "bin_www_resyncidsequences",
+      "bin_www_start"
+    ],
+    "19": [
+      "controllers_association_controller",
+      "controllers_association_controller_getassociations",
+      "routes_association",
+      "routes_association_associationcontroller",
+      "routes_association_express",
+      "routes_association_router"
+    ],
+    "20": [
+      "controllers_supplies_controller",
+      "controllers_supplies_controller_createsupply",
+      "controllers_supplies_controller_getsupplies",
+      "controllers_supplies_controller_getsupplybyid",
+      "controllers_supplies_controller_supplies_supply_type_user",
+      "controllers_supplies_controller_updatesupply"
+    ],
+    "21": [
+      "controllers_user_controller",
+      "controllers_user_controller_getuserbyid",
+      "controllers_user_controller_hasproperty",
+      "controllers_user_controller_op",
+      "controllers_user_controller_updateuser",
+      "controllers_user_controller_user"
+    ],
+    "22": [
+      "models_user_model",
+      "models_user_model_bcrypt",
+      "models_user_model_model",
+      "models_user_model_user",
+      "models_user_model_user_associate",
+      "models_user_model_user_matchpassword"
+    ],
+    "23": [
+      "models_option_model",
+      "models_option_model_model",
+      "models_option_model_option",
+      "models_option_model_option_associate"
+    ],
+    "24": [
+      "models_property_model",
+      "models_property_model_model",
+      "models_property_model_property",
+      "models_property_model_property_associate"
+    ],
+    "25": [
+      "models_question_model",
+      "models_question_model_model",
+      "models_question_model_question",
+      "models_question_model_question_associate"
+    ],
+    "26": [
+      "models_response_model",
+      "models_response_model_model",
+      "models_response_model_response",
+      "models_response_model_response_associate"
+    ],
+    "27": [
+      "models_response_selected_option_model",
+      "models_response_selected_option_model_model",
+      "models_response_selected_option_model_response_selected_option",
+      "models_response_selected_option_model_response_selected_option_associate"
+    ],
+    "28": [
+      "models_survey_submission_model",
+      "models_survey_submission_model_model",
+      "models_survey_submission_model_survey_submission",
+      "models_survey_submission_model_survey_submission_associate"
+    ],
+    "29": [
+      "models_association_model",
+      "models_association_model_association",
+      "models_association_model_model"
+    ],
+    "30": [
+      "models_form_model",
+      "models_form_model_form",
+      "models_form_model_model"
+    ],
+    "31": [
+      "config_config"
+    ],
+    "32": [
+      "consultar_datos"
+    ],
+    "33": [
+      "insert_maldito"
+    ],
+    "34": [
+      "models_activity_model"
+    ],
+    "35": [
+      "models_crop_model"
+    ],
+    "36": [
+      "models_drying_model"
+    ],
+    "37": [
+      "models_fermentation_model"
+    ],
+    "38": [
+      "models_harvest_model"
+    ],
+    "39": [
+      "models_lot_model"
+    ],
+    "40": [
+      "models_refresh_token_model"
+    ],
+    "41": [
+      "models_sale_model"
+    ],
+    "42": [
+      "models_supplies_model"
+    ],
+    "43": [
+      "models_supply_type_model"
+    ],
+    "44": [
+      "models_type_activity"
+    ],
+    "45": [
+      "models_variety_model"
+    ]
+  },
+  "cohesion": {
+    "0": 0.06882591093117409,
+    "1": 0.07407407407407407,
+    "2": 0.07407407407407407,
+    "3": 0.15833333333333333,
+    "4": 0.15384615384615385,
+    "5": 0.15384615384615385,
+    "6": 0.15384615384615385,
+    "7": 0.16666666666666666,
+    "8": 0.16666666666666666,
+    "9": 0.16666666666666666,
+    "10": 0.18181818181818182,
+    "11": 0.18181818181818182,
+    "12": 0.18181818181818182,
+    "13": 0.2222222222222222,
+    "14": 0.2222222222222222,
+    "15": 0.2222222222222222,
+    "16": 0.25,
+    "17": 0.25,
+    "18": 0.42857142857142855,
+    "19": 0.3333333333333333,
+    "20": 0.3333333333333333,
+    "21": 0.3333333333333333,
+    "22": 0.3333333333333333,
+    "23": 0.5,
+    "24": 0.5,
+    "25": 0.5,
+    "26": 0.5,
+    "27": 0.5,
+    "28": 0.5,
+    "29": 0.6666666666666666,
+    "30": 0.6666666666666666,
+    "31": 1.0,
+    "32": 1.0,
+    "33": 1.0,
+    "34": 1.0,
+    "35": 1.0,
+    "36": 1.0,
+    "37": 1.0,
+    "38": 1.0,
+    "39": 1.0,
+    "40": 1.0,
+    "41": 1.0,
+    "42": 1.0,
+    "43": 1.0,
+    "44": 1.0,
+    "45": 1.0
+  },
+  "gods": [
+    {
+      "id": "middlewares_authjwt_verifytoken",
+      "label": "verifyToken()",
+      "degree": 16
+    },
+    {
+      "id": "models_user_model_user",
+      "label": "User",
+      "degree": 3
+    },
+    {
+      "id": "controllers_auth_controller_generateaccesstoken",
+      "label": "generateAccessToken()",
+      "degree": 3
+    },
+    {
+      "id": "controllers_auth_controller_generateandstorerefreshtoken",
+      "label": "generateAndStoreRefreshToken()",
+      "degree": 3
+    },
+    {
+      "id": "controllers_auth_controller_refreshtoken",
+      "label": "refreshToken()",
+      "degree": 3
+    },
+    {
+      "id": "controllers_auth_controller_signin",
+      "label": "signin()",
+      "degree": 3
+    },
+    {
+      "id": "package_scripts",
+      "label": "scripts",
+      "degree": 3
+    },
+    {
+      "id": "models_option_model_option",
+      "label": "Option",
+      "degree": 2
+    },
+    {
+      "id": "models_property_model_property",
+      "label": "Property",
+      "degree": 2
+    },
+    {
+      "id": "models_question_model_question",
+      "label": "Question",
+      "degree": 2
+    }
+  ],
+  "surprises": [],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `verifyToken()` connect `app.js` to `form.controller.js`, `lot.controller.js`, `survey.controller.js`, `type_activity.controller.js`, `crop.js`, `sale.js`, `variety.js`, `supply_type.js`?",
+      "why": "High betweenness centrality (0.041) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `dependencies` connect `dependencies` to `package.json`?",
+      "why": "High betweenness centrality (0.011) - this node is a cross-community bridge."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 2 inferred relationships involving `start()` (e.g. with `onError()` and `onListening()`) actually correct?",
+      "why": "`start()` has 2 INFERRED edges - model-reasoned connections that need verification."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `Association`, `Form`, `config` to the rest of the system?",
+      "why": "143 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `app.js` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.06882591093117409 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `dependencies` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.07407407407407407 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `models/index.js` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.07407407407407407 - nodes in this community are weakly interconnected."
+    }
+  ]
+}
