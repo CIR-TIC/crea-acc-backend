@@ -3,4 +3,6 @@ build
 npm-debug.log
 .env
 .DS_Store
-config/config.js
+.env.dev
+.env.tst
+.env.prd

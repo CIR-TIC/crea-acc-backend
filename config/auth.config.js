@@ -1,5 +1,5 @@
 module.exports = {
-  secret: 'cir-secret-key',
+  secret: process.env.JWT_SECRET,
   jwtExpiration: 900 * 7,
-  jwtRefreshExpiration: 2592000, 
+  jwtRefreshExpiration: 2592000,
 }
