@@ -64,7 +64,7 @@ exports.getActivityByLot = async (req, res) => {
 
 exports.updateActivity = async (req, res) => {
     try {
-        const { id } = req.body.id;
+        const { id } = req.body;
         const activity = await Activity.findByPk(id);
         if (!activity) return res.status(404).json({ error: 'Activity not found' });
 
@@ -77,7 +77,7 @@ exports.updateActivity = async (req, res) => {
 
 exports.deleteActivity = async (req, res) => {
     try {
-        const { id } = req.body.id;
+        const { id } = req.body;
         const activity = await Activity.findByPk(id);
         if (!activity) return res.status(404).json({ error: 'Activity not found' });
 

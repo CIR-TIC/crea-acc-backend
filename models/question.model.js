@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         };
     };
     Question.init({
-        label: { type: DataTypes.STRING },
+        label: { type: DataTypes.TEXT },
         input_type: { type: DataTypes.STRING },
         question_type: { type: DataTypes.STRING, },
         index: { type: DataTypes.INTEGER },

@@ -22,7 +22,7 @@ exports.getTypeActivities = async (req, res) => {
 
 exports.getTypeActivityById = async (req, res) => {
     try {
-        const { id } = req.body.id;
+        const { id } = req.body;
         const type = await Type_activity.findByPk(id);
         if (!type) return res.status(404).json({ error: 'Type_Activity not found' });
         res.status(200).json(type);
@@ -33,7 +33,7 @@ exports.getTypeActivityById = async (req, res) => {
 
 exports.updateTypeActivity = async (req, res) => {
     try {
-        const { id } = req.body.id;
+        const { id } = req.body;
         const type = await Type_activity.findByPk(id);
         if (!type) return res.status(404).json({ error: 'Type_Activity not found' });
 
@@ -46,7 +46,7 @@ exports.updateTypeActivity = async (req, res) => {
 
 exports.deleteTypeActivity = async (req, res) => {
     try {
-        const { id } = req.body.id;
+        const { id } = req.body;
         const type = await Type_activity.findByPk(id);
         if (!type) return res.status(404).json({ error: 'Type_Activity not found' });
 

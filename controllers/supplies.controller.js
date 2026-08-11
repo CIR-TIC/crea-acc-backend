@@ -46,7 +46,7 @@ exports.getSupplies = async (req, res) => {
 
 exports.getSupplyById = async (req, res) => {
     try {
-        const { id } = req.body.id;
+        const { id } = req.body;
         const supply = await Supplies.findByPk(id, {
             include: [{ model: Supply_Type, as: 'supply_type' }]
         });

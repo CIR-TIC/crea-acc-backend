@@ -186,7 +186,7 @@ exports.submitSurvey = async (req, res) => {
 
 exports.getSurveys = async (req, res) => {
   try {
-    const surveys = await Survey.findAll();
+    const surveys = await Survey_Submission.findAll();
     res.status(200).json(surveys);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -252,11 +252,12 @@ exports.getSurveySubmissionDetails = async (req, res) => {
 
 exports.updateSurvey = async (req, res) => {
   try {
-    const { id, code, date } = req.body;
-    const survey = await Survey.findByPk(id);
+    const { id } = req.params;
+    const { submission_code, date } = req.body;
+    const survey = await Survey_Submission.findByPk(id);
     if (!survey) return res.status(404).json({ error: 'Survey not found' });
 
-    await survey.update({ code, date });
+    await survey.update({ submission_code, date });
     res.status(200).json(survey);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -265,8 +266,8 @@ exports.updateSurvey = async (req, res) => {
 
 exports.deleteSurvey = async (req, res) => {
   try {
-    const { id } = req.body.id;
-    const survey = await Survey.findByPk(id);
+    const { id } = req.params;
+    const survey = await Survey_Submission.findByPk(id);
     if (!survey) return res.status(404).json({ error: 'Survey not found' });
 
     await survey.destroy();

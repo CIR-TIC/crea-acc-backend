@@ -1,11 +1,15 @@
 
+BEGIN;
+
 -- CREAR (ejecutar en este orden)
+-- Idempotente: se puede correr varias veces sin duplicar datos ni fallar por ids repetidos.
 INSERT INTO form.form (id, title, description)
 VALUES (
     5,
     'Cuestionario de auditoria',
     'Cuestionario de auditoria para asociaciones de pequeños productores agrícolas.'
-);
+)
+ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO form.question (id, form_id, label, input_type, question_type, index, is_required)
 VALUES
@@ -161,7 +165,8 @@ VALUES
 (212, 5, 'Conclusión de la auditoría', 'note', 'observation', 113, FALSE),
 (213, 5, 'Hallazgos principales:', 'text', 'long_answer', 114, FALSE),
 (214, 5, 'Recomendaciones:', 'text', 'long_answer', 115, FALSE),
-(215, 5, 'Acciones correctivas sugeridas:', 'text', 'long_answer', 116, FALSE);
+(215, 5, 'Acciones correctivas sugeridas:', 'text', 'long_answer', 116, FALSE)
+ON CONFLICT (id) DO NOTHING;
 
 
 INSERT INTO form.option (id, question_id, value, index)
@@ -243,4 +248,13 @@ VALUES
 (520, 202, '1', 1), (521, 202, '2', 2), (522, 202, '3', 3), (523, 202, '4', 4), (524, 202, '5', 5),
 (525, 205, '1', 1), (526, 205, '2', 2), (527, 205, '3', 3), (528, 205, '4', 4), (529, 205, '5', 5),
 (530, 206, '1', 1), (531, 206, '2', 2), (532, 206, '3', 3), (533, 206, '4', 4), (534, 206, '5', 5),
-(535, 211, '1', 1), (536, 211, '2', 2), (537, 211, '3', 3), (538, 211, '4', 4), (539, 211, '5', 5);
+(535, 211, '1', 1), (536, 211, '2', 2), (537, 211, '3', 3), (538, 211, '4', 4), (539, 211, '5', 5)
+ON CONFLICT (id) DO NOTHING;
+
+-- Resincroniza los contadores de autoincremento con los ids insertados a mano arriba,
+-- para que el próximo id generado por la app (sin id explícito) no choque con estos.
+SELECT setval(pg_get_serial_sequence('form.form', 'id'), COALESCE((SELECT MAX(id) FROM form.form), 1));
+SELECT setval(pg_get_serial_sequence('form.question', 'id'), COALESCE((SELECT MAX(id) FROM form.question), 1));
+SELECT setval(pg_get_serial_sequence('form.option', 'id'), COALESCE((SELECT MAX(id) FROM form.option), 1));
+
+COMMIT;

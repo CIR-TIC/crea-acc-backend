@@ -21,7 +21,7 @@ exports.getQuestions = async (req, res) => {
 
 exports.getQuestionById = async (req, res) => {
     try {
-        const { id } = req.body.id;
+        const { id } = req.params;
         const question = await Question.findByPk(id);
         if (!question) return res.status(404).json({ error: 'Question not found' });
         res.status(200).json(question);
@@ -32,7 +32,8 @@ exports.getQuestionById = async (req, res) => {
 
 exports.updateQuestion = async (req, res) => {
     try {
-        const { id, label, input_type, question_type, index, is_required, form_id } = req.body;
+        const { id } = req.params;
+        const { label, input_type, question_type, index, is_required, form_id } = req.body;
         const question = await Question.findByPk(id);
         if (!question)
             return res.status(404).json({ error: 'Question not found' });
@@ -45,7 +46,7 @@ exports.updateQuestion = async (req, res) => {
 
 exports.deleteQuestion = async (req, res) => {
     try {
-        const { id } = req.body.id;
+        const { id } = req.params;
         const question = await Question.findByPk(id);
         if (!question) return res.status(404).json({ error: 'Question not found' });
 

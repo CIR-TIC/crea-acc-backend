@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         }),
         Activity.belongsTo(models.Type_activity, {
             foreignKey: 'id_type_activity'
-        });;
+        });
     };
 
     return Activity;

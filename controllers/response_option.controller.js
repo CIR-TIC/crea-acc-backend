@@ -1,9 +1,9 @@
-const { ResponseOption } = require('../models');
+const { Response_Selected_Option } = require('../models');
 
 exports.createResponseOption = async (req, res) => {
   try {
     const { response_id, option_id } = req.body;
-    const responseOption = await ResponseOption.create({ response_id, option_id });
+    const responseOption = await Response_Selected_Option.create({ response_id, option_id });
     res.status(201).json(responseOption);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -12,7 +12,7 @@ exports.createResponseOption = async (req, res) => {
 
 exports.getResponseOptions = async (req, res) => {
   try {
-    const data = await ResponseOption.findAll();
+    const data = await Response_Selected_Option.findAll();
     res.status(200).json(data);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -21,8 +21,8 @@ exports.getResponseOptions = async (req, res) => {
 
 exports.getResponseOptionById = async (req, res) => {
   try {
-    const { id } = req.body.id;
-    const item = await ResponseOption.findByPk(id);
+    const { id } = req.params;
+    const item = await Response_Selected_Option.findByPk(id);
     if (!item) return res.status(404).json({ error: 'ResponseOption not found' });
     res.status(200).json(item);
   } catch (error) {
@@ -32,8 +32,9 @@ exports.getResponseOptionById = async (req, res) => {
 
 exports.updateResponseOption = async (req, res) => {
   try {
-    const { id, response_id, option_id } = req.body;
-    const item = await ResponseOption.findByPk(id);
+    const { id } = req.params;
+    const { response_id, option_id } = req.body;
+    const item = await Response_Selected_Option.findByPk(id);
     if (!item) return res.status(404).json({ error: 'ResponseOption not found' });
 
     await item.update({ response_id, option_id });
@@ -45,8 +46,8 @@ exports.updateResponseOption = async (req, res) => {
 
 exports.deleteResponseOption = async (req, res) => {
   try {
-    const { id } = req.body.id;
-    const item = await ResponseOption.findByPk(id);
+    const { id } = req.params;
+    const item = await Response_Selected_Option.findByPk(id);
     if (!item) return res.status(404).json({ error: 'ResponseOption not found' });
 
     await item.destroy();

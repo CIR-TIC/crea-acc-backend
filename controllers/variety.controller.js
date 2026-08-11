@@ -11,7 +11,7 @@ exports.getVarieties = async (req, res) => {
 
 exports.getVarietyById = async (req, res) => {
   try {
-    const { id } = req.body.id;
+    const { id } = req.body;
     const variety = await Variety.findByPk(id);
     if (!variety) return res.status(404).json({ error: 'Variety not found' });
 

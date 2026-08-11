@@ -18,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
 
     Lot.associate = (models) => {
         Lot.belongsTo(models.Property, {
-            foreignKey: 'id_property'
+            foreignKey: 'id_property',
+            as: 'property'
         });
         Lot.belongsTo(models.Variety, {
             foreignKey: 'id_variety'

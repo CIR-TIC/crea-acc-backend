@@ -45,7 +45,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/auth', authRouter);;
+app.use('/auth', authRouter);
 app.use('/forms', formRouter);
 app.use('/questions', questionRouter);
 app.use('/options', optionRouter);

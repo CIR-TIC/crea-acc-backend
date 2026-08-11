@@ -21,7 +21,7 @@ exports.getOptions = async (req, res) => {
 
 exports.getOptionById = async (req, res) => {
     try {
-        const { id } = req.body.id;
+        const { id } = req.params;
         const option = await Option.findByPk(id);
         if (!option) return res.status(404).json({ error: 'Option not found' });
         res.status(200).json(option);
@@ -32,7 +32,8 @@ exports.getOptionById = async (req, res) => {
 
 exports.updateOption = async (req, res) => {
     try {
-        const { id, value, index, question_id } = req.body;
+        const { id } = req.params;
+        const { value, index, question_id } = req.body;
         const option = await Option.findByPk(id);
         if (!option) return res.status(404).json({ error: 'Option not found' });
 
@@ -45,7 +46,7 @@ exports.updateOption = async (req, res) => {
 
 exports.deleteOption = async (req, res) => {
     try {
-        const { id } = req.body.id;
+        const { id } = req.params;
         const option = await Option.findByPk(id);
         if (!option) return res.status(404).json({ error: 'Option not found' });
 

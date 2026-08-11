@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     };
     Response.init({
-        text_value: {type: DataTypes.STRING},
+        text_value: {type: DataTypes.TEXT},
         question_id: {
             type: DataTypes.INTEGER,
             allowNull: false

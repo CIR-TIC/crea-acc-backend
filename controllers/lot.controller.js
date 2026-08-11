@@ -60,7 +60,7 @@ exports.getLotByPropertyId = async (req, res) => {
 
 exports.getLotById = async (req, res) => {
     try {
-        const { id } = req.body.id;
+        const { id } = req.body;
         const lot = await Lot.findByPk(id, {
             include: [{ model: Property, as: 'property' }]
         });
@@ -74,7 +74,7 @@ exports.getLotById = async (req, res) => {
 
 exports.updateLot = async (req, res) => {
     try {
-        const { id } = req.body.id;
+        const { id } = req.body;
         const lot = await Lot.findByPk(id);
         if (!lot) return res.status(404).json({ error: 'Lot not found' });
 
@@ -87,8 +87,8 @@ exports.updateLot = async (req, res) => {
 
 exports.deleteLot = async (req, res) => {
     try {
-        const { lot_id } = req.body.id;
-        const lot = await Lot.findByPk(lot_id);
+        const { id } = req.body;
+        const lot = await Lot.findByPk(id);
         if (!lot) return res.status(404).json({ error: 'Lot not found' });
 
         await lot.destroy();

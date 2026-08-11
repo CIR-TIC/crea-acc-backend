@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     };
     Form.init({
         title: { type: DataTypes.STRING },
-        description: { type: DataTypes.STRING },
+        description: { type: DataTypes.TEXT },
         audCreatedAt: {
             field: 'aud_created_at',
             type: DataTypes.DATE,

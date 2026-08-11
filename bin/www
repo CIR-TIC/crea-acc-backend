@@ -22,18 +22,43 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
-return models.sequelize.sync().then(result => {
+/**
+ * Tables where insert maldito.sql (and similar seed scripts) assign
+ * explicit ids, which leaves Postgres's own SERIAL counter behind.
+ * Resynced on every boot so the next app-generated id never collides.
+ */
+var TABLES_WITH_MANUAL_IDS = ['form.form', 'form.question', 'form.option'];
+
+async function resyncIdSequences() {
+  for (const table of TABLES_WITH_MANUAL_IDS) {
+    await models.sequelize.query(`
+      SELECT setval(
+        pg_get_serial_sequence('${table}', 'id'),
+        COALESCE((SELECT MAX(id) FROM ${table}), 1)
+      )
+    `);
+  }
+}
+
+/**
+ * Initialize database (schemas, tables, id sequences) then start listening.
+ */
+
+async function start() {
+  await models.sequelize.query('CREATE SCHEMA IF NOT EXISTS form');
+  await models.sequelize.query('CREATE SCHEMA IF NOT EXISTS app');
+  await models.sequelize.sync();
+  await resyncIdSequences();
+
   server.listen(port, '0.0.0.0');
   server.on('error', onError);
   server.on('listening', onListening);
-})
-/**
- * Listen on provided port, on all network interfaces.
- */
+}
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+start().catch(err => {
+  console.error('Failed to initialize server:', err);
+  process.exit(1);
+});
 
 /**
  * Normalize a port into a number, string, or false.

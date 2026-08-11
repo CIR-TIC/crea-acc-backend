@@ -65,7 +65,7 @@ exports.getFormDetails = async (req, res) => {
 
 exports.getFormById = async (req, res) => {
     try {
-        const { id } = req.body.id;
+        const { id } = req.body;
         const form = await Form.findByPk(id);
         if (!form) return res.status(404).json({ error: 'Form not found' });
         res.status(200).json(form);
@@ -76,7 +76,8 @@ exports.getFormById = async (req, res) => {
 
 exports.updateForm = async (req, res) => {
     try {
-        const { id, title, description } = req.body;
+        const { id } = req.params;
+        const { title, description } = req.body;
         const form = await Form.findByPk(id);
         if (!form)
             return res.status(404).json({ error: 'Form not found' });
@@ -89,7 +90,7 @@ exports.updateForm = async (req, res) => {
 
 exports.deleteForm = async (req, res) => {
     try {
-        const { id } = req.body.id;
+        const { id } = req.params;
         const form = await Form.findByPk(id);
         if (!form)
             return res.status(404).json({ error: 'Form not found' });
