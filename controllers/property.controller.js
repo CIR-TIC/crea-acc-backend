@@ -4,11 +4,15 @@ const Property = db.Property;
 const User = db.User;
 
 exports.getAllProperties = async (req, res) => {
-    if (req.user.role !== 'admin') {
-        return res.status(403).json({ message: 'Forbidden: Only administrators can view all properties.' });
-    }
-
     try {
+        const authenticatedUser = await User.findByPk(req.userId);
+        if (!authenticatedUser) {
+            return res.status(404).json({ message: 'Authenticated user not found.' });
+        }
+        if (authenticatedUser.role !== 'admin') {
+            return res.status(403).json({ message: 'Forbidden: Only administrators can view all properties.' });
+        }
+
         const properties = await Property.findAll({
             order: [['audCreatedAt', 'DESC']]
         });
@@ -22,21 +26,23 @@ exports.getAllProperties = async (req, res) => {
 exports.getPropertyById = async (req, res) => {
     const { propertyId } = req.params;
 
-    const authenticatedUserId = req.user.id;
-    const authenticatedUserRole = req.user.role;
-
     const propIdInt = parseInt(propertyId, 10);
     if (isNaN(propIdInt)) {
         return res.status(400).json({ message: 'Invalid property ID format.' });
     }
 
     try {
+        const authenticatedUser = await User.findByPk(req.userId);
+        if (!authenticatedUser) {
+            return res.status(404).json({ message: 'Authenticated user not found.' });
+        }
+
         const property = await Property.findByPk(propIdInt, {
             include: [
                 {
                     model: User,
                     as: 'users', // Incluir los usuarios asociados
-                    attributes: ['id', 'username', 'email', 'role'],
+                    attributes: ['id', 'name', 'last_name', 'email', 'role'],
                 }
             ]
         });
@@ -46,7 +52,7 @@ exports.getPropertyById = async (req, res) => {
         }
 
         // --- Validación de Propiedad ---
-        if (authenticatedUserRole !== 'admin' && req.user.property_id !== propIdInt) {
+        if (authenticatedUser.role !== 'admin' && authenticatedUser.property_id !== propIdInt) {
             return res.status(403).json({ message: 'Forbidden: You do not have permission to access this property. It is not associated with your user.' });
         }
 
@@ -64,7 +70,11 @@ exports.createProperty = async (req, res) => {
     }
 
     try {
-        const user = User.findByPk(req.userId)
+        const user = await User.findByPk(req.userId);
+
+        if (user.property_id !== null) {
+            return res.status(409).json({ message: 'This user is already associated with a property.' });
+        }
 
         const newProperty = await Property.create({
             province,
@@ -94,15 +104,17 @@ exports.updateProperty = async (req, res) => {
     const { propertyId } = req.params;
     const updates = req.body;
 
-    const authenticatedUserId = req.user.id;
-    const authenticatedUserRole = req.user.role;
-
     const propIdInt = parseInt(propertyId, 10);
     if (isNaN(propIdInt)) {
         return res.status(400).json({ message: 'Invalid property ID format.' });
     }
 
     try {
+        const authenticatedUser = await User.findByPk(req.userId);
+        if (!authenticatedUser) {
+            return res.status(404).json({ message: 'Authenticated user not found.' });
+        }
+
         const property = await Property.findByPk(propIdInt);
 
         if (!property) {
@@ -110,7 +122,7 @@ exports.updateProperty = async (req, res) => {
         }
 
         // --- Validación de Propiedad ---
-        if (authenticatedUserRole !== 'admin' && req.user.property_id !== propIdInt) {
+        if (authenticatedUser.role !== 'admin' && authenticatedUser.property_id !== propIdInt) {
             return res.status(403).json({ message: 'Forbidden: You do not have permission to update this property.' });
         }
 
@@ -161,12 +173,10 @@ exports.deleteProperty = async (req, res) => {
 
 // --- Extra: Obtener la propiedad a la que el usuario autenticado está asociado ---
 exports.getMyAssociatedProperty = async (req, res) => {
-    const authenticatedUserId = req.user.id;
-
     try {
         // Buscamos al usuario para obtener su property_id
-        const user = await User.findByPk(authenticatedUserId, {
-            attributes: ['id', 'username', 'email', 'property_id'] // Asegúrate de incluir property_id
+        const user = await User.findByPk(req.userId, {
+            attributes: ['id', 'name', 'email', 'property_id']
         });
 
         if (!user) {
@@ -183,8 +193,8 @@ exports.getMyAssociatedProperty = async (req, res) => {
                 {
                     model: User,
                     as: 'users',
-                    attributes: ['id', 'username', 'email'],
-                    where: { id: { [db.Sequelize.Op.ne]: authenticatedUserId } }, // Opcional: excluye al propio usuario de la lista de usuarios asociados
+                    attributes: ['id', 'name', 'last_name', 'email'],
+                    where: { id: { [db.Sequelize.Op.ne]: req.userId } }, // Opcional: excluye al propio usuario de la lista de usuarios asociados
                     required: false // Usa false si la propiedad puede existir sin usuarios, o si no todos tienen que ser incluidos.
                 }
             ]

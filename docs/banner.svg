@@ -1,0 +1,29 @@
+<svg width="1200" height="260" viewBox="0 0 1200 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CREA / CIR-ACC Backend">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0A400C"/>
+      <stop offset="100%" stop-color="#1E5B2C"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="85%" cy="15%" r="60%">
+      <stop offset="0%" stop-color="#B7D6A8" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#B7D6A8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="260" rx="18" fill="url(#bg)"/>
+  <rect width="1200" height="260" rx="18" fill="url(#glow)"/>
+
+  <!-- decorative "coffee bean" shapes -->
+  <g opacity="0.16" fill="#FFFFFF">
+    <ellipse cx="1040" cy="70" rx="46" ry="60" transform="rotate(24 1040 70)"/>
+    <rect x="1032" y="18" width="8" height="104" rx="4" transform="rotate(24 1040 70)"/>
+    <ellipse cx="1110" cy="150" rx="34" ry="44" transform="rotate(-18 1110 150)"/>
+    <rect x="1104" y="112" width="6" height="76" rx="3" transform="rotate(-18 1110 150)"/>
+    <ellipse cx="960" cy="190" rx="28" ry="36" transform="rotate(10 960 190)"/>
+    <rect x="955" y="160" width="5" height="60" rx="2.5" transform="rotate(10 960 190)"/>
+  </g>
+
+  <text x="60" y="108" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="46" font-weight="700" fill="#FFFFFF">CREA · CIR-ACC</text>
+  <text x="60" y="150" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="30" font-weight="600" fill="#DDEBD6">Backend</text>
+  <text x="60" y="192" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="19" fill="#C9DFC0">API REST de trazabilidad de producción de café — lotes, actividades, inventario y encuestas.</text>
+</svg>

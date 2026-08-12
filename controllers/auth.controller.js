@@ -36,7 +36,7 @@ exports.signin = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(404).send({ message: 'User Not found.' });
+      return res.status(404).send({ message: 'Usuario no encontrado.' });
     }
 
     const passwordIsValid = bcrypt.compareSync(
@@ -47,7 +47,7 @@ exports.signin = async (req, res) => {
     if (!passwordIsValid) {
       return res.status(401).send({
         accessToken: null,
-        message: 'Invalid Password!',
+        message: 'Contraseña incorrecta.',
       });
     }
 
@@ -71,7 +71,8 @@ exports.signin = async (req, res) => {
 
     res.status(200).send(json);
   } catch (err) {
-    res.status(500).send({ message: err.message });
+    console.error('Error en signin:', err);
+    res.status(500).send({ message: 'Ocurrió un error al iniciar sesión. Intente de nuevo más tarde.' });
   }
 };
 
@@ -82,7 +83,7 @@ exports.signup = async (req, res) => {
   })
 
   if (tmp_user) {
-    res.status(418).send({ message: "User already exists" })
+    res.status(409).send({ message: "El correo electrónico ya está registrado." })
     return
   }
   else {
@@ -99,11 +100,22 @@ exports.signup = async (req, res) => {
       property_id: req.body.property_id,
     })
       .then(user => {
-        res.status(200).send({ message: "User created" })
+        res.status(200).send({ message: "Usuario registrado exitosamente." })
         return
       }
       ).catch(err => {
-        res.status(500).send({ message: err.message })
+        console.error('Error en signup:', err);
+        if (err.name === 'SequelizeUniqueConstraintError') {
+          const field = err.errors?.[0]?.path;
+          const fieldLabels = {
+            identity_number: 'El número de identificación',
+            producer_code: 'El código de productor',
+            email: 'El correo electrónico',
+          };
+          const label = fieldLabels[field] || 'Uno de los datos ingresados';
+          return res.status(409).send({ message: `${label} ya está registrado.` });
+        }
+        res.status(500).send({ message: 'Ocurrió un error al registrar el usuario. Intente de nuevo más tarde.' })
       })
   }
 }
@@ -112,24 +124,24 @@ exports.refreshToken = async (req, res) => {
   const { refreshToken: requestToken } = req.body;
 
   if (!requestToken) {
-    return res.status(403).send({ message: 'Refresh Token is required!' });
+    return res.status(403).send({ message: 'Se requiere el token de actualización.' });
   }
 
   try {
     const refreshToken = await RefreshToken.findOne({ where: { token: requestToken } });
 
     if (!refreshToken) {
-      return res.status(403).send({ message: 'Refresh Token not found!' });
+      return res.status(403).send({ message: 'Token de actualización no encontrado.' });
     }
 
     if (refreshToken.expiryDate < new Date()) {
       await RefreshToken.destroy({ where: { id: refreshToken.id } });
-      return res.status(403).send({ message: 'Refresh Token was expired. Please make a new signin request' });
+      return res.status(403).send({ message: 'El token de actualización expiró. Por favor, inicie sesión de nuevo.' });
     }
 
     const user = await User.findByPk(refreshToken.user_id);
     if (!user) {
-      return res.status(404).send({ message: 'User not found for this Refresh Token.' });
+      return res.status(404).send({ message: 'No se encontró el usuario para este token.' });
     }
 
     await RefreshToken.destroy({ where: { id: refreshToken.id } });
@@ -142,6 +154,7 @@ exports.refreshToken = async (req, res) => {
       refreshToken: newRefreshToken,
     });
   } catch (err) {
-    return res.status(500).send({ message: err.message });
+    console.error('Error en refreshToken:', err);
+    return res.status(500).send({ message: 'Ocurrió un error al renovar la sesión. Intente de nuevo más tarde.' });
   }
 };
