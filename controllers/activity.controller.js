@@ -1,5 +1,6 @@
 // controllers/activityController.js
 const { Activity, Lot } = require('../models');
+const { checkActivityEditable } = require('../utils/activityEditGuard');
 
 exports.createActivity = async (req, res) => {
     try {
@@ -68,7 +69,34 @@ exports.updateActivity = async (req, res) => {
         const activity = await Activity.findByPk(id);
         if (!activity) return res.status(404).json({ error: 'Activity not found' });
 
-        await activity.update(req.body);
+        const guardError = await checkActivityEditable(activity, req.userId);
+        if (guardError) return res.status(guardError.status).json({ error: guardError.message });
+
+        const {
+            name,
+            description,
+            date,
+            equipment,
+            dose,
+            labour_amount,
+            labour_cost,
+            observation,
+            status,
+            id_type_activity
+        } = req.body;
+
+        await activity.update({
+            name,
+            description,
+            date,
+            equipment,
+            dose,
+            labour_amount,
+            labour_cost,
+            observation,
+            status,
+            id_type_activity
+        });
         res.status(200).json(activity);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -80,6 +108,9 @@ exports.deleteActivity = async (req, res) => {
         const { id } = req.body;
         const activity = await Activity.findByPk(id);
         if (!activity) return res.status(404).json({ error: 'Activity not found' });
+
+        const guardError = await checkActivityEditable(activity, req.userId);
+        if (guardError) return res.status(guardError.status).json({ error: guardError.message });
 
         await activity.destroy();
         res.status(204).send();

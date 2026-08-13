@@ -2,7 +2,13 @@ const { Crop, Variety } = require('../models');
 
 exports.getCrops = async (req, res) => {
     try {
-        const crops = await Crop.findAll();
+        // Incluye las variedades de una vez: el cliente móvil descarga el
+        // catálogo completo (cultivos + variedades) en una sola llamada para
+        // quedar listo para trabajar offline, en vez de pedir las variedades
+        // de cada cultivo una por una.
+        const crops = await Crop.findAll({
+            include: [{ model: Variety }]
+        });
         res.status(200).json(crops);
     } catch (error) {
         res.status(500).json({ error: error.message });

@@ -5,5 +5,7 @@ const saleController = require('../controllers/sale.controller');
 
 router.post('/get', verifyToken, saleController.getSales);
 router.post('/create', verifyToken, saleController.createSale);
+router.post('/update', verifyToken, saleController.updateSale);
+router.post('/delete', verifyToken, saleController.deleteSale);
 
 module.exports = router;

@@ -7,6 +7,15 @@ module.exports = (sequelize, DataTypes) => {
         method: DataTypes.STRING,
         observation: DataTypes.STRING,
         id_lot: DataTypes.INTEGER,
+        audCreatedAt: {
+            field: 'aud_created_at',
+            type: DataTypes.DATE,
+            defaultValue: sequelize.fn('now'),
+        },
+        audUpdatedAt: {
+            field: 'aud_updated_at',
+            type: DataTypes.DATE,
+        },
     }, {
         tableName: 'drying',
         schema: 'app',

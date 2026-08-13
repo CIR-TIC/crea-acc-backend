@@ -5,5 +5,7 @@ const dryingController = require('../controllers/drying.controller');
 
 router.post('/get', verifyToken, dryingController.getDrying);
 router.post('/create', verifyToken, dryingController.createDrying);
+router.post('/update', verifyToken, dryingController.updateDrying);
+router.post('/delete', verifyToken, dryingController.deleteDrying);
 
 module.exports = router;

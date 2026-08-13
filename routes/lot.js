@@ -5,5 +5,7 @@ const lotController = require('../controllers/lot.controller');
 
 router.get('/', verifyToken, lotController.getLotByPropertyId);
 router.post('/', verifyToken, lotController.createLot);
+router.put('/', verifyToken, lotController.updateLot);
+router.delete('/', verifyToken, lotController.deleteLot);
 
 module.exports = router;

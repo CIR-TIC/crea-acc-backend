@@ -6,5 +6,7 @@ const activityController = require('../controllers/activity.controller');
 
 router.post('/', verifyToken, activityController.createActivity);
 router.post('/activitiesByLot', verifyToken, activityController.getActivityByLot);
+router.post('/update', verifyToken, activityController.updateActivity);
+router.post('/delete', verifyToken, activityController.deleteActivity);
 
 module.exports = router;

@@ -8,7 +8,17 @@ module.exports = (sequelize, DataTypes) => {
         description: DataTypes.STRING,
         transportation_type: DataTypes.STRING,
         observation: DataTypes.STRING,
-        id_lot: DataTypes.INTEGER
+        cacao_state: DataTypes.STRING,
+        id_lot: DataTypes.INTEGER,
+        audCreatedAt: {
+            field: 'aud_created_at',
+            type: DataTypes.DATE,
+            defaultValue: sequelize.fn('now'),
+        },
+        audUpdatedAt: {
+            field: 'aud_updated_at',
+            type: DataTypes.DATE,
+        }
     }, {
         tableName: 'sale',
         schema: 'app',
