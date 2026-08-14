@@ -48,7 +48,7 @@ Este repositorio es el backend: expone todo lo anterior como una API REST consum
 
 - 🔑 Autenticación con JWT (access + refresh token) y contraseñas hasheadas con bcrypt.
 - 🌱 Modelo de dominio completo del ciclo del café: propiedades, lotes, actividades y sus variantes (cosecha, secado, fermentación, venta), inventario de insumos.
-- 📋 Motor de encuestas dinámicas desacoplado del dominio de café (formularios, preguntas, opciones, envíos y respuestas), reutilizable para cualquier tipo de encuesta.
+- 📋 Motor de encuestas dinámicas desacoplado del dominio de café (formularios agrupados en secciones, preguntas con texto de ayuda y validación de tipo/rango, opciones, envíos y respuestas), reutilizable para cualquier tipo de encuesta.
 - 🛡️ Autorización basada en el rol del usuario y en la propiedad a la que pertenece (un productor solo ve/edita su propia finca).
 - 🗣️ Mensajes de error consistentes y en español para toda la API.
 - 🧪 Suite de tests de integración contra una base de datos Postgres real (no mocks).
@@ -147,7 +147,9 @@ Los modelos viven en dos esquemas de Postgres:
 
 ```mermaid
 erDiagram
+    form ||--o{ section : "groups_into"
     form ||--o{ question : "defines"
+    section ||--o{ question : "contains"
     question ||--o{ option : "has"
     form ||--o{ survey_submission : "submitted_as"
     survey_submission ||--o{ response_answer : "contains"
@@ -164,14 +166,27 @@ erDiagram
         TIMESTAMP_WITH_TIME_ZONE last_updated_at
     }
 
+    section {
+        INTEGER id PK
+        INTEGER form_id FK
+        VARCHAR(255) title
+        INTEGER index
+        TIMESTAMP_WITH_TIME_ZONE created_at
+        TIMESTAMP_WITH_TIME_ZONE last_updated_at
+    }
+
     question {
         INTEGER id PK
         INTEGER form_id FK
+        INTEGER section_id FK
         TEXT label
+        TEXT help_text
         VARCHAR(50) input_type
         VARCHAR(50) question_type
         INTEGER position
         BOOLEAN is_required
+        DECIMAL min_value
+        DECIMAL max_value
         JSONB metadata
         TIMESTAMP_WITH_TIME_ZONE created_at
         TIMESTAMP_WITH_TIME_ZONE last_updated_at
