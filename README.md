@@ -243,7 +243,7 @@ Tests de integración con Jest + Supertest contra una base de datos Postgres rea
 > El enum de roles de usuario solo admite `pollster` y `producer`; no existe todavía un rol `admin`. Por eso `GET /properties` (listado de todas las propiedades) siempre responde `403` en la práctica, y la eliminación de propiedades no está expuesta como endpoint hasta definir una estrategia de autorización para operaciones administrativas.
 
 - [ ] Definir rol `admin` y su estrategia de autorización.
-- [ ] Sumar tests de integración para el resto de recursos (`lots`, `activities`, `supplies`, `surveys`).
+- [ ] Sumar tests de integración para el resto de recursos (`lots`, `activities`, `supplies`).
 - [ ] Configurar despliegue en Render para el ambiente de producción.
 
 ## 🔗 Repos relacionados
