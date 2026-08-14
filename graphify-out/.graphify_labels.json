@@ -1,7 +1,7 @@
 {
   "0": "authJWT.js",
   "1": "dependencies",
-  "2": "checkActivityEditable",
+  "2": "activity.controller.js",
   "3": "auth.controller.js",
   "4": "form.controller.js",
   "5": "lot.controller.js",
@@ -32,6 +32,7 @@
   "30": "form.model.js",
   "31": "config.js",
   "32": "Consultar Datos.sql",
+  "33": "user.controller.js",
   "34": "activity.model.js",
   "35": "crop.model.js",
   "36": "drying.model.js",
@@ -51,10 +52,19 @@
   "50": "survey.controller.js",
   "51": "drying.js",
   "52": "association.js",
+  "53": "drying.controller.js",
   "54": "property.js",
   "55": "sale.js",
   "56": "supply.js",
   "57": "supply_type.js",
+  "58": "checkActivityEditable",
   "59": "routes/type_activity.js",
-  "60": "seed_catalogos.sql"
+  "60": "seed_catalogos.sql",
+  "61": "www",
+  "62": "fermentation.controller.js",
+  "63": "sale.controller.js",
+  "64": "supplies.controller.js",
+  "65": "crop.controller.js",
+  "66": "variety.controller.js",
+  "67": "activityEditGuard.js"
 }
