@@ -167,6 +167,104 @@ async function createSale(overrides = {}) {
   });
 }
 
+async function createForm(overrides = {}) {
+  return models.Form.create({
+    title: 'Cuestionario de prueba',
+    description: 'Descripción de prueba',
+    ...overrides,
+  });
+}
+
+async function createSection(overrides = {}) {
+  let formId = overrides.form_id;
+  if (!formId) {
+    const form = await createForm();
+    formId = form.id;
+  }
+
+  return models.Section.create({
+    title: 'Sección de prueba',
+    index: 1,
+    ...overrides,
+    form_id: formId,
+  });
+}
+
+async function createQuestion(overrides = {}) {
+  let formId = overrides.form_id;
+  if (!formId) {
+    const form = await createForm();
+    formId = form.id;
+  }
+
+  return models.Question.create({
+    label: 'Pregunta de prueba',
+    help_text: null,
+    input_type: 'text',
+    question_type: 'short_answer',
+    index: 1,
+    is_required: true,
+    min_value: null,
+    max_value: null,
+    section_id: null,
+    ...overrides,
+    form_id: formId,
+  });
+}
+
+async function createOption(overrides = {}) {
+  let questionId = overrides.question_id;
+  if (!questionId) {
+    const question = await createQuestion({ input_type: 'radio', question_type: 'single_choice' });
+    questionId = question.id;
+  }
+
+  return models.Option.create({
+    value: 'Opción de prueba',
+    index: 1,
+    ...overrides,
+    question_id: questionId,
+  });
+}
+
+async function createSurveySubmission(overrides = {}) {
+  let formId = overrides.form_id;
+  if (!formId) {
+    const form = await createForm();
+    formId = form.id;
+  }
+
+  return models.Survey_Submission.create({
+    submission_code: `SUB-${Date.now()}-${Math.floor(Math.random() * 100000)}`,
+    date: new Date(),
+    pollster_id: null,
+    ...overrides,
+    form_id: formId,
+  });
+}
+
+async function createResponse(overrides = {}) {
+  let surveySubmissionId = overrides.survey_submission_id;
+  if (!surveySubmissionId) {
+    const submission = await createSurveySubmission();
+    surveySubmissionId = submission.id;
+  }
+
+  let questionId = overrides.question_id;
+  if (!questionId) {
+    const question = await createQuestion();
+    questionId = question.id;
+  }
+
+  return models.Response.create({
+    text_value: 'Respuesta de prueba',
+    option_id: null,
+    ...overrides,
+    survey_submission_id: surveySubmissionId,
+    question_id: questionId,
+  });
+}
+
 function tokenFor(userId) {
   return jwt.sign({ id: userId }, authConfig.secret, { expiresIn: authConfig.jwtExpiration });
 }
@@ -181,5 +279,11 @@ module.exports = {
   createDrying,
   createFermentation,
   createSale,
+  createForm,
+  createSection,
+  createQuestion,
+  createOption,
+  createSurveySubmission,
+  createResponse,
   tokenFor,
 };
