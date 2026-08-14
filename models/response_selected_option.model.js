@@ -10,8 +10,16 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            Response_Selected_Option.belongsTo(models.Response, { foreignKey: 'response_id' }),
-            Response_Selected_Option.belongsTo(models.Option, { foreignKey: 'option_id' })
+            Response_Selected_Option.belongsTo(models.Response, {
+                foreignKey: 'response_id',
+                onDelete: 'CASCADE',
+                onUpdate: 'CASCADE',
+            }),
+            Response_Selected_Option.belongsTo(models.Option, {
+                foreignKey: 'option_id',
+                onDelete: 'CASCADE',
+                onUpdate: 'CASCADE',
+            })
         }
     };
     Response_Selected_Option.init({
@@ -44,6 +52,10 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: false,
         freezeTableName: true,
         tableName: 'response_selected_option',
+        // No se puede marcar la misma opción dos veces para una respuesta.
+        indexes: [
+            { unique: true, fields: ['response_id', 'option_id'] },
+        ],
     })
     return Response_Selected_Option
 }

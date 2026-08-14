@@ -41,17 +41,18 @@ exports.submitSurvey = async (req, res) => {
       submission_code: submissionCode,
     }, { transaction });
 
-    const questionIds = Object.keys(answers).map(id => parseInt(id, 10));
-    if (questionIds.length === 0) {
+    if (Object.keys(answers).length === 0) {
       await transaction.rollback();
       return res.status(400).json({ message: 'No answers provided.' });
     }
 
-    const questionsWithDetails = await Question.findAll({
-      where: {
-        id: { [Op.in]: questionIds },
-        form_id: formIdInt,
-      },
+    // Se piden TODAS las preguntas de la Form (no solo las que vinieron en
+    // el body) para poder validar is_required contra el cuestionario real:
+    // antes esto solo miraba lo que el cliente decidió mandar, así que una
+    // encuesta le podía faltar una pregunta obligatoria entera sin que el
+    // servidor se enterara.
+    const allQuestionsForForm = await Question.findAll({
+      where: { form_id: formIdInt },
       include: [{
         model: Option,
         as: 'options',
@@ -60,7 +61,24 @@ exports.submitSurvey = async (req, res) => {
     });
 
     const questionsMap = new Map();
-    questionsWithDetails.forEach(q => questionsMap.set(q.id, q));
+    allQuestionsForForm.forEach(q => questionsMap.set(q.id, q));
+
+    const missingRequired = allQuestionsForForm.filter((q) => {
+      if (!q.is_required || q.input_type === 'note') return false;
+      const answer = answers[String(q.id)];
+      if (q.input_type === 'checkbox') {
+        return !Array.isArray(answer) || answer.length === 0;
+      }
+      return answer === undefined || answer === null || String(answer).trim() === '';
+    });
+
+    if (missingRequired.length > 0) {
+      await transaction.rollback();
+      return res.status(400).json({
+        message: 'Missing required answers.',
+        missingQuestionIds: missingRequired.map((q) => q.id),
+      });
+    }
 
     const responsesToCreate = [];
     const optionResponsesToCreate = [];
@@ -75,7 +93,30 @@ exports.submitSurvey = async (req, res) => {
         return res.status(400).json({ message: `Question with ID ${questionId} not found in Form ${formIdInt}.` });
       }
 
-      if (['text', 'textarea', 'number'].includes(question.input_type)) {
+      if (question.input_type === 'number') {
+        if (typeof answer !== 'string' && typeof answer !== 'number') {
+          await transaction.rollback();
+          return res.status(400).json({ message: `Invalid answer format for question ${questionId}. Expected string/number for input type ${question.input_type}.` });
+        }
+        const numericValue = Number(answer);
+        if (String(answer).trim() === '' || Number.isNaN(numericValue)) {
+          await transaction.rollback();
+          return res.status(400).json({ message: `Answer for question ${questionId} must be a valid number.` });
+        }
+        if (question.min_value !== null && numericValue < Number(question.min_value)) {
+          await transaction.rollback();
+          return res.status(400).json({ message: `Answer for question ${questionId} must be greater than or equal to ${question.min_value}.` });
+        }
+        if (question.max_value !== null && numericValue > Number(question.max_value)) {
+          await transaction.rollback();
+          return res.status(400).json({ message: `Answer for question ${questionId} must be less than or equal to ${question.max_value}.` });
+        }
+        responsesToCreate.push({
+          survey_submission_id: surveySubmission.id,
+          question_id: question.id,
+          text_value: String(answer),
+        });
+      } else if (['text', 'textbox', 'date'].includes(question.input_type)) {
         if (typeof answer !== 'string' && typeof answer !== 'number') {
           await transaction.rollback();
           return res.status(400).json({ message: `Invalid answer format for question ${questionId}. Expected string/number for input type ${question.input_type}.` });
@@ -85,7 +126,7 @@ exports.submitSurvey = async (req, res) => {
           question_id: question.id,
           text_value: String(answer),
         });
-      } else if (['radio', 'select', '"checkbox"'].includes(question.input_type)) {
+      } else if (['radio', 'select', 'likert_scale'].includes(question.input_type)) {
         if (typeof answer !== 'string') {
           await transaction.rollback();
           return res.status(400).json({ message: `Invalid answer format for question ${questionId}. Expected string (option ID) for input type ${question.input_type}.` });
@@ -107,9 +148,15 @@ exports.submitSurvey = async (req, res) => {
         });
       } else if (question.input_type === 'checkbox') {
 
-        if (!Array.isArray(answer) || answer.length === 0) {
+        if (!Array.isArray(answer)) {
           await transaction.rollback();
-          return res.status(400).json({ message: `Invalid answer format for question ${questionId}. Expected non-empty array of option IDs for input type checkbox.` });
+          return res.status(400).json({ message: `Invalid answer format for question ${questionId}. Expected an array of option IDs for input type checkbox.` });
+        }
+        if (answer.length === 0) {
+          // Checkbox opcional sin nada marcado: no genera respuesta, igual
+          // que si la pregunta no hubiera venido en el body. Si fuera
+          // obligatoria ya se habría rechazado arriba en missingRequired.
+          continue;
         }
         const validOptions = question.options.map(opt => opt.id);
         const receivedOptionIds = answer.map(id => parseInt(id, 10));

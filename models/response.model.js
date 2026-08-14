@@ -10,10 +10,19 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            Response.belongsTo(models.Question, { foreignKey: 'question_id' }),
+            // Sin cascada: si se borra una Question, sus respuestas ya dadas
+            // se quedan (dato de auditoría), el borrado se bloquea hasta que
+            // se limpien a propósito.
+            Response.belongsTo(models.Question, { foreignKey: 'question_id', onDelete: 'RESTRICT' }),
             Response.belongsTo(models.Survey_Submission, { foreignKey: 'survey_submission_id' }),
-            Response.belongsTo(models.Option, { foreignKey: 'option_id' })
-            Response.hasMany(models.Response_Selected_Option, {foreignKey: 'response_id' })
+            // Si se borra la Option elegida, la respuesta no desaparece —
+            // solo pierde la referencia a cuál opción era (option_id a null).
+            Response.belongsTo(models.Option, { foreignKey: 'option_id', onDelete: 'SET NULL' })
+            Response.hasMany(models.Response_Selected_Option, {
+                foreignKey: 'response_id',
+                onDelete: 'CASCADE',
+                onUpdate: 'CASCADE',
+            })
         }
     };
     Response.init({
@@ -51,6 +60,10 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: false,
         freezeTableName: true,
         tableName: 'response',
+        // Una sola respuesta por pregunta por envío.
+        indexes: [
+            { unique: true, fields: ['survey_submission_id', 'question_id'] },
+        ],
     })
     return Response
 }

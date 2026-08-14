@@ -9,6 +9,12 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'form_id',
             as: 'questions'
         });
+        Form.hasMany(models.Section, {
+            foreignKey: 'form_id',
+            as: 'sections',
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+        });
     };
     Form.init({
         title: { type: DataTypes.STRING },

@@ -1,16 +1,16 @@
-# Graph Report - crea-acc-backend  (2026-08-12)
+# Graph Report - crea-acc-backend  (2026-08-13)
 
 ## Corpus Check
-- 84 files · ~15,178 words
+- 88 files · ~19,475 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 397 nodes · 449 edges · 50 communities (41 shown, 9 thin omitted)
-- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 9 edges (avg confidence: 0.5)
+- 431 nodes · 519 edges · 61 communities (49 shown, 12 thin omitted)
+- Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 16 edges (avg confidence: 0.5)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `187c1210`
+- Built from commit: `cb34f9fd`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -21,7 +21,7 @@
 - auth.controller.js
 - form.controller.js
 - lot.controller.js
-- app.js
+- factories.js
 - response.controller.js
 - type_activity.controller.js
 - package.json
@@ -32,10 +32,10 @@
 - README.md
 - variety.js
 - property.controller.js
-- activity.controller.js
+- activity.js
 - www
 - fermentation.js
-- supply.js
+- supplies.controller.js
 - user.controller.js
 - user.model.js
 - option.model.js
@@ -47,54 +47,79 @@
 - association.model.js
 - form.model.js
 - harvest.js
+- survey.controller.js
+- app.js
+- association.js
+- form.js
+- property.js
+- sale.js
+- supply.js
+- supply_type.js
+- survey.js
+- routes/type_activity.js
 
 ## God Nodes (most connected - your core abstractions)
-1. `verifyToken()` - 16 edges
-2. `Testing — Backend` - 5 edges
-3. `createUser()` - 5 edges
-4. `scripts` - 4 edges
-5. `models` - 4 edges
-6. `truncateAll()` - 4 edges
-7. `closeDb()` - 4 edges
-8. `generateAccessToken()` - 3 edges
-9. `generateAndStoreRefreshToken()` - 3 edges
-10. `signin()` - 3 edges
+1. `checkActivityEditable()` - 16 edges
+2. `verifyToken()` - 10 edges
+3. `createLot()` - 9 edges
+4. `createUser()` - 7 edges
+5. `createProperty()` - 5 edges
+6. `tokenFor()` - 5 edges
+7. `Testing — Backend` - 5 edges
+8. `createActivity()` - 4 edges
+9. `closeDb()` - 4 edges
+10. `truncateAll()` - 4 edges
 
 ## Surprising Connections (you probably didn't know these)
-- None detected - all connections are within the same source files.
+- `updateActivity()` --calls--> `checkActivityEditable()`  [EXTRACTED]
+  controllers/activity.controller.js → utils/activityEditGuard.js
+- `deleteActivity()` --calls--> `checkActivityEditable()`  [EXTRACTED]
+  controllers/activity.controller.js → utils/activityEditGuard.js
+- `updateDrying()` --calls--> `checkActivityEditable()`  [EXTRACTED]
+  controllers/drying.controller.js → utils/activityEditGuard.js
+- `deleteDrying()` --calls--> `checkActivityEditable()`  [EXTRACTED]
+  controllers/drying.controller.js → utils/activityEditGuard.js
+- `updateFermentation()` --calls--> `checkActivityEditable()`  [EXTRACTED]
+  controllers/fermentation.controller.js → utils/activityEditGuard.js
 
 ## Import Cycles
 - None detected.
 
-## Communities (50 total, 9 thin omitted)
+## Communities (61 total, 12 thin omitted)
 
 ### Community 0 - "authJWT.js"
-Cohesion: 0.07
-Nodes (26): { Supply_Type }, config, jwt, verifyToken(), dryingController, express, router, { verifyToken } (+18 more)
+Cohesion: 0.33
+Nodes (5): config, jwt, verifyToken(), usersController, { verifyToken }
 
 ### Community 1 - "dependencies"
 Cohesion: 0.07
 Nodes (27): bcryptjs, cookie-parser, debug, dotenv, express, http-errors, jade, jsonwebtoken (+19 more)
 
 ### Community 2 - "models/index.js"
-Cohesion: 0.06
-Nodes (14): { Drying, Lot }, { where }, { Sale, Lot }, db, { Op }, basename, db, fs (+6 more)
+Cohesion: 0.05
+Nodes (30): { Activity, Lot }, { checkActivityEditable }, deleteActivity(), updateActivity(), { checkActivityEditable }, deleteDrying(), { Drying, Lot }, updateDrying() (+22 more)
 
 ### Community 3 - "auth.controller.js"
-Cohesion: 0.17
+Cohesion: 0.16
 Nodes (12): bcrypt, config, db, generateAccessToken(), generateAndStoreRefreshToken(), jwt, refreshToken(), signin() (+4 more)
-
-### Community 4 - "form.controller.js"
-Cohesion: 0.15
-Nodes (5): db, express, formController, router, { verifyToken }
 
 ### Community 5 - "lot.controller.js"
 Cohesion: 0.15
-Nodes (5): { Lot, Property, User }, express, lotController, router, { verifyToken }
+Nodes (5): { Lot, Property, User, Activity, Harvest, Fermentation, Drying, Sale }, express, lotController, router, { verifyToken }
 
-### Community 6 - "app.js"
-Cohesion: 0.12
-Nodes (22): app, { createAssociation, createUser }, request, { truncateAll, closeDb }, closeDb(), models, truncateAll(), authConfig (+14 more)
+### Community 6 - "factories.js"
+Cohesion: 0.09
+Nodes (37): app, {
+  createUser,
+  createProperty,
+  createLot,
+  createActivity,
+  createHarvest,
+  createDrying,
+  createFermentation,
+  createSale,
+  tokenFor,
+}, EIGHT_DAYS_AGO, { models, truncateAll, closeDb }, request, app, { createAssociation, createUser }, request (+29 more)
 
 ### Community 7 - "response.controller.js"
 Cohesion: 0.17
@@ -117,8 +142,8 @@ Cohesion: 0.18
 Nodes (4): { Response_Selected_Option }, controller, express, router
 
 ### Community 13 - "crop.js"
-Cohesion: 0.22
-Nodes (5): { Crop, Variety }, cropController, express, router, { verifyToken }
+Cohesion: 0.40
+Nodes (4): cropController, express, router, { verifyToken }
 
 ### Community 14 - "README.md"
 Cohesion: 0.10
@@ -128,25 +153,17 @@ Nodes (19): 🔐 Autenticación, ✨ Características, 🗂️ Estructura del pr
 Cohesion: 0.22
 Nodes (5): { Variety, Crop }, express, router, varietyController, { verifyToken }
 
-### Community 16 - "property.controller.js"
-Cohesion: 0.15
-Nodes (5): db, express, propertyController, router, { verifyToken }
-
-### Community 17 - "activity.controller.js"
-Cohesion: 0.17
-Nodes (5): { Activity, Lot }, activityController, express, router, { verifyToken }
+### Community 17 - "activity.js"
+Cohesion: 0.40
+Nodes (4): activityController, express, router, { verifyToken }
 
 ### Community 18 - "www"
 Cohesion: 0.43
 Nodes (5): models, onError(), onListening(), resyncIdSequences(), start()
 
 ### Community 19 - "fermentation.js"
-Cohesion: 0.22
-Nodes (5): { Fermentation }, express, fermentationController, router, { verifyToken }
-
-### Community 20 - "supply.js"
-Cohesion: 0.18
-Nodes (5): { Supplies, Supply_Type, User }, express, router, supplyController, { verifyToken }
+Cohesion: 0.40
+Nodes (4): express, fermentationController, router, { verifyToken }
 
 ### Community 21 - "user.controller.js"
 Cohesion: 0.20
@@ -159,28 +176,68 @@ Nodes (3): bcrypt, {
 }, User
 
 ### Community 46 - "harvest.js"
-Cohesion: 0.22
-Nodes (5): { Harvest }, express, harvestController, router, { verifyToken }
+Cohesion: 0.40
+Nodes (4): express, harvestController, router, { verifyToken }
+
+### Community 50 - "survey.controller.js"
+Cohesion: 0.15
+Nodes (3): { Crop, Variety }, db, { Op }
+
+### Community 51 - "app.js"
+Cohesion: 0.29
+Nodes (4): dryingController, express, router, { verifyToken }
+
+### Community 52 - "association.js"
+Cohesion: 0.33
+Nodes (3): associationController, express, router
+
+### Community 53 - "form.js"
+Cohesion: 0.40
+Nodes (4): express, formController, router, { verifyToken }
+
+### Community 54 - "property.js"
+Cohesion: 0.40
+Nodes (4): express, propertyController, router, { verifyToken }
+
+### Community 55 - "sale.js"
+Cohesion: 0.40
+Nodes (4): express, router, saleController, { verifyToken }
+
+### Community 56 - "supply.js"
+Cohesion: 0.40
+Nodes (4): express, router, supplyController, { verifyToken }
+
+### Community 57 - "supply_type.js"
+Cohesion: 0.40
+Nodes (4): express, router, supplyTypeController, { verifyToken }
+
+### Community 58 - "survey.js"
+Cohesion: 0.40
+Nodes (4): express, router, surveyController, { verifyToken }
+
+### Community 59 - "routes/type_activity.js"
+Cohesion: 0.40
+Nodes (4): express, router, typeActivityController, { verifyToken }
 
 ## Knowledge Gaps
-- **181 isolated node(s):** `Tabla de contenidos`, `🚀 Sobre el proyecto`, `✨ Características`, `🧱 Stack tecnológico`, `⚙️ Puesta en marcha` (+176 more)
+- **196 isolated node(s):** `{ Activity, Lot }`, `{ checkActivityEditable }`, `{ Crop, Variety }`, `{ where }`, `{ Drying, Lot }` (+191 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **9 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **12 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `verifyToken()` connect `authJWT.js` to `form.controller.js`, `lot.controller.js`, `crop.js`, `harvest.js`, `variety.js`, `property.controller.js`, `activity.controller.js`, `fermentation.js`, `supply.js`?**
-  _High betweenness centrality (0.030) - this node is a cross-community bridge._
+- **Why does `verifyToken()` connect `authJWT.js` to `crop.js`, `variety.js`, `form.js`, `property.js`, `supply.js`, `supply_type.js`, `survey.js`, `routes/type_activity.js`?**
+  _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **Why does `dependencies` connect `dependencies` to `package.json`?**
-  _High betweenness centrality (0.010) - this node is a cross-community bridge._
-- **What connects `Tabla de contenidos`, `🚀 Sobre el proyecto`, `✨ Características` to the rest of the system?**
-  _181 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `authJWT.js` be split into smaller, more focused modules?**
-  _Cohesion score 0.06507936507936508 - nodes in this community are weakly interconnected._
+  _High betweenness centrality (0.008) - this node is a cross-community bridge._
+- **What connects `{ Activity, Lot }`, `{ checkActivityEditable }`, `{ Crop, Variety }` to the rest of the system?**
+  _196 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.07407407407407407 - nodes in this community are weakly interconnected._
 - **Should `models/index.js` be split into smaller, more focused modules?**
-  _Cohesion score 0.06451612903225806 - nodes in this community are weakly interconnected._
-- **Should `app.js` be split into smaller, more focused modules?**
-  _Cohesion score 0.12315270935960591 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.054901960784313725 - nodes in this community are weakly interconnected._
+- **Should `factories.js` be split into smaller, more focused modules?**
+  _Cohesion score 0.08879492600422834 - nodes in this community are weakly interconnected._
+- **Should `package.json` be split into smaller, more focused modules?**
+  _Cohesion score 0.11764705882352941 - nodes in this community are weakly interconnected._

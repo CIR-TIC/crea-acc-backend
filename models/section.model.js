@@ -3,27 +3,26 @@ const {
     Model
 } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
-     class Option extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
+    class Section extends Model {
         static associate(models) {
-            Option.belongsTo(models.Question, {
-                foreignKey: 'question_id',
+            Section.belongsTo(models.Form, {
+                foreignKey: 'form_id',
                 onDelete: 'CASCADE',
                 onUpdate: 'CASCADE',
             })
-            // Una respuesta que seleccionó esta opción se limpia sola si la
-            // opción se borra (ver Response_Selected_Option.belongsTo(Option)).
-            Option.hasMany(models.Response_Selected_Option, { foreignKey: 'option_id' })
-        }
+            // Sin cascada: si se borra una Section, sus preguntas no
+            // desaparecen con ella — solo se quedan sin sección (ver
+            // Question.belongsTo(Section) en question.model.js).
+            Section.hasMany(models.Question, {
+                foreignKey: 'section_id',
+                as: 'questions',
+            })
+        };
     };
-    Option.init({
-        value: {type: DataTypes.STRING},
-        index: {type: DataTypes.INTEGER},
-        question_id: {
+    Section.init({
+        title: { type: DataTypes.STRING, allowNull: false },
+        index: { type: DataTypes.INTEGER, allowNull: false },
+        form_id: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
@@ -44,10 +43,13 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         sequelize,
         schema: 'form',
-        modelName: 'Option',
+        modelName: 'Section',
         timestamps: false,
         freezeTableName: true,
-        tableName: 'option',
+        tableName: 'section',
+        indexes: [
+            { unique: true, fields: ['form_id', 'index'] },
+        ],
     })
-    return Option
+    return Section
 }

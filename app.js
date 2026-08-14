@@ -33,6 +33,15 @@ var propertyRouter = require('./routes/property');
 
 var app = express();
 
+// Esta es una API privada para la app móvil, que ya hace su propio caché
+// local (SQLite + comparación de aud_updated_at) — no gana nada con el
+// caching HTTP de Express. Dejarlo prendido (el default) generaba ETags en
+// cada GET, y el stack HTTP nativo de React Native (OkHttp/NSURLSession) a
+// veces cacheaba esa respuesta y mandaba "If-None-Match" en la siguiente
+// llamada idéntica; el backend respondía 304 y como no es un 2xx, la app lo
+// trataba como error (afectaba sobre todo GET /forms).
+app.set('etag', false);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

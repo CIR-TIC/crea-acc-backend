@@ -2,6 +2,7 @@ const db = require('../models');
 const Form = db.Form;
 const Question = db.Question;
 const Option = db.Option;
+const Section = db.Section;
 
 exports.createForm = async (req, res) => {
     try {
@@ -33,6 +34,10 @@ exports.getFormDetails = async (req, res) => {
         const form = await Form.findByPk(formId, {
             include: [
                 {
+                    model: Section,
+                    as: 'sections',
+                },
+                {
                     model: Question,
                     as: 'questions',
                     include: [
@@ -44,6 +49,7 @@ exports.getFormDetails = async (req, res) => {
                 },
             ],
             order: [
+                [{ model: Section, as: 'sections' }, 'index', 'ASC'],
                 [{ model: Question, as: 'questions' }, 'index', 'ASC'],
                 [{ model: Question, as: 'questions' }, { model: Option, as: 'options' }, 'index', 'ASC'],
             ],
